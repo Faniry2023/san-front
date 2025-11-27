@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="login-wrapper">
+
+    <mat-card class="card-container" appearance="outlined">
+
+        <!-- GAUCHE -->
+        <div class="left-panel">
+        <img src="assets/logo-projet/san-bg.png" class="big-logo" alt="logo">
+
+        <h2 class="left-title">Plateforme SAN - ORN Vakinankaratra</h2>
+
+        <p class="left-text">
+            Suivi géographique des données nutritionnelles et alimentaires dans la région Vakinankaratra.  
+            Un système de gestion sécurisé administré par le **ONN – ORN**.
+        </p>
+        </div>
+
+        <!-- DROITE (FORMULAIRE) -->
+        <div class="right-panel">
+
+        <h2 class="title">Connexion</h2>
+
+        <form [formGroup]="form">
+
+            <!-- Identifiant -->
+            <mat-form-field appearance="outline" class="full">
+            <mat-label>Email ou Nom d’utilisateur</mat-label>
+            <input matInput formControlName="identifier">
+            <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <!-- Password -->
+            <mat-form-field appearance="outline" class="full">
+            <mat-label>Mot de passe</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+            <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="remember">Se souvenir de moi</mat-checkbox>
+
+            <button 
+            mat-raised-button 
+            color="primary"
+            class="btn-login full"
+            (click)="login()" [disabled]="store.loading()">
+                <div class="btn">
+                    @if(store.loading()){
+                        <mat-progress-spinner 
+                        diameter="20"
+                        strokeWidth="3"
+                        mode="indeterminate">
+                        </mat-progress-spinner>
+                    }@else{
+                        Se connecter
+                    }
+                </div>
+            </button>
+
+        </form>
+            @if (store.isError()) {
+                <p class="errors-msg">{{store.error()}}</p>
+            }
+        <p class="info">
+            Si vous n'avez pas de compte, veuillez contacter l'administrateur.
+        </p>
+
+        </div>
+
+    </mat-card>
+
+    </div>
+</body>
+</html>

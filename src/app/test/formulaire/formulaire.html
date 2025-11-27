@@ -1,0 +1,73 @@
+<mat-card class="card">
+  <h2>Créer un utilisateur TEST</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput formControlName="password" type="password">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Matricule</mat-label>
+      <input matInput formControlName="matricule">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contact</mat-label>
+      <input matInput formControlName="contact">
+    </mat-form-field>
+
+    <!-- DRAG & DROP UPLOAD -->
+    <div class="upload-zone"
+         (drop)="onDrop($event)"
+         (dragover)="onDragOver($event)"
+         (click)="fileInput.click()">
+
+      <mat-icon>cloud_upload</mat-icon>
+      <p>Glissez une image ici ou cliquez pour choisir</p>
+
+      <input type="file"
+             #fileInput
+             hidden
+             accept="image/*"
+             (change)="onFileSelected($event)">
+    </div>
+
+    <!-- IMAGE PREVIEW -->
+     @if(preview()){
+        <img [src]="preview()" class="preview-img">   
+     }
+    
+
+    <button mat-raised-button color="primary" type="submit">
+      @if(store.loading()){
+        <mat-progress-spinner diameter="20" mode="indeterminate" strokeWidth="3"></mat-progress-spinner>
+      } @else {
+        Enregistrer
+      }
+      
+    </button>
+
+  </form>
+</mat-card>

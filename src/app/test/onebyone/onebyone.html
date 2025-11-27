@@ -1,0 +1,15 @@
+<button (click)="setLevel(0)">Pays</button>
+<button (click)="setLevel(1)">Province</button>
+<button (click)="setLevel(2)">Région</button>
+<button (click)="setLevel(3)">District</button>
+<button (click)="setLevel(4)">Commune</button>
+
+<div
+  leaflet
+  [leafletOptions]="mapOptions"
+  [leafletLayers]="[currentLayer]"
+  style="height: 600px;"
+></div>
+<button (click)="recupTout()">tout</button>
+<input type="text" #search placeholder="Chercher une province...">
+<button (click)="selectByName(search.value, 2)">Chercher</button>
