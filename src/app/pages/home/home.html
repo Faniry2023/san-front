@@ -1,2 +1,30 @@
-<p>home works!</p>
-<a (click)="logout()">logout</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <app-header></app-header>
+    </header>
+    @if(!show()){
+        <div class="sortie" (click)="showMenu()">
+            <mat-icon>chevron_right</mat-icon>
+        </div>
+    }
+    <div class="menu" [class.show]="show()">
+        <div class="hideMenu" (click)="showMenu()"><mat-icon class="my_icon">chevron_left</mat-icon></div>
+        <a >Accueil</a>
+        <a >Graphique</a>
+        <a class="active">Données</a>
+        <a >Carte</a>
+        <a >Utilisateur</a>
+        <a >Poste</a>
+        <a >Acces</a>
+        <a >Kobo Toolbox</a>
+        <a >Power BI</a>
+    </div>
+</body>
+</html>

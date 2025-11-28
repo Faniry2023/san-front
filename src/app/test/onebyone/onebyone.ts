@@ -68,6 +68,7 @@ nameField: { [key: number]: string } = {
       onEachFeature: (feature, layer) => {
         const name = feature.properties[field];
         layer.bindTooltip(name || "Sans nom");
+        console.log('nom : '+name);
         // console.log(name);
         //recherche
           // Sauvegarde
@@ -146,7 +147,8 @@ nameField: { [key: number]: string } = {
       id: feature.properties["GID_"+level],
       level: level,
       nomLevel:this.getNomLevel(level),
-      nom: feature.properties[`NAME_${level}`]
+      nom: feature.properties[`NAME_${level}`],
+      gid:'GID_'+level
     }
   }
 
@@ -214,5 +216,31 @@ nameField: { [key: number]: string } = {
 
     this.highlightSelected(found.layer);
   }
+logFullGadmList() {
+  const results: Gadm[] = [];
+
+  for (let level = 0; level <= 4; level++) {
+    const features = this.levels[level].features;
+
+    features.forEach((feature: any) => {
+      const gadm: Gadm = {
+        id: feature.properties["GID_" + level],
+        level: level,
+        nomLevel: this.getNomLevel(level),
+        nom: (level !== 0)?feature.properties["NAME_" + level]:feature.properties["COUNTRY"],
+        gid: "GID_" + level
+      };
+      results.push(gadm);
+    });
+  }
+
+  // Affichage propre
+  results.forEach((g: Gadm) => {
+    console.log(
+      `id: ${g.id}, level: ${g.level}, nomLevel: ${g.nomLevel}, nom: ${g.nom}, gid: ${g.gid}`
+    );
+  });
+}
+
 
 }

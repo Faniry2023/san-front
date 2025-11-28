@@ -5,8 +5,15 @@ import { Map } from './map/map';
 import { Login } from './pages/login/login';
 import { NotFound } from './pages/not-found/not-found';
 import { Home } from './pages/home/home';
+import { loggedInGuard } from './guards/logged-in-guard';
+import { loggedOutGuard } from './guards/logged-out-guard';
 
 export const routes: Routes = [
+    {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
     {
         path: 'formulaire',
         component:Formulaire
@@ -21,14 +28,16 @@ export const routes: Routes = [
     },
     {
         path: 'login',
-        component:Login
+        component:Login,
+        canActivate:[loggedOutGuard]
     },
     {
         path: 'home',
-        component:Home
+        component:Home,
+        // canActivate:[loggedInGuard]
     },
     {
-        path: 'not-found',
+        path: '**',
         component:NotFound
     },
 

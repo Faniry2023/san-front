@@ -60,7 +60,10 @@
               "buildTarget": "SAN:build:production"
             },
             "development": {
-              "buildTarget": "SAN:build:development"
+              "buildTarget": "SAN:build:development",
+              "ssl": true,
+              "sslKey": "src/ssl/localhost-key.pem",
+              "sslCert": "src/ssl/localhost.pem"
             }
           },
           "defaultConfiguration": "development"
