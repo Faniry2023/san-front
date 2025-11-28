@@ -1,0 +1,150 @@
+/*
+    principal :#000138
+    second:
+    troisieme:#252c85
+*/
+.header{
+    position: fixed;
+    top: 0;
+    background-color: #000138;
+    box-shadow: 1px 1px 25px;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+.header .logo{
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+.header .titre{
+    color: white;
+    letter-spacing: 5px;
+}
+.header .compte{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.header .compte .photo{
+    margin-right: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    border-radius: 40px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 0 gray;
+    border: 1px white solid;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+.header .compte .photo:hover{
+    box-shadow: 0 0 15px 2px gray;
+}
+.header .compte .np{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p{
+        margin: 0;
+        color: white;
+        font-weight: 200;
+        letter-spacing: 2px;
+    }
+}
+
+.menu{
+    z-index: 0;
+    right: 10px;
+    top: -350px;
+    margin-top: 150px;
+    position: absolute;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    padding: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 15px 2px gray;
+    opacity: 0;
+    transition: top 0.4s ease-in-out, opacity 1.2s ease;
+    .photo{
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        width: 100px;
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0 0 5px 2px black;
+        transition: all 0.3s ease;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .photo:hover{
+        box-shadow: 0 0 12px 2px black;
+    }
+    .menu-list{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        a{
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            border: gray 1px solid;
+            width: 100%;
+            border-radius: 20px;
+            padding: 1px 10px;
+            box-shadow: 1px 1px 2px;
+            transition: all 0.5s ease;
+            .btn{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+        .btn{
+          display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+        a:hover{
+            box-shadow: 1px 1px 5px;
+            letter-spacing: 2px;
+        }
+    }
+}
+.menu.show{
+    top: -70px;
+    opacity: 1;
+}

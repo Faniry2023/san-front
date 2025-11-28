@@ -31,7 +31,7 @@ export class Login {
   private fb = inject(FormBuilder);
   store = inject(UtilisateurStore);
   router = inject(Router);
-
+  erreurs = ["Utilisateur introuvable","Echec de l'authentification"];
   form = this.fb.group({
     identifier: ['', Validators.required],
     password: ['', Validators.required],
@@ -41,7 +41,6 @@ export class Login {
 
   async login() {
     if (this.form.invalid) return;
-
     const loginHelper:LoginHelper ={
       identifier: this.form.value.identifier!,
       password: this.form.value.password!,

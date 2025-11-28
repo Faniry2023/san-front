@@ -3,4 +3,5 @@ export interface Gadm {
     level:number;
     nomLevel:string;
     nom:string;
+    gid:string;
 }

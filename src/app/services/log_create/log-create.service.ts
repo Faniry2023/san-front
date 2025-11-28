@@ -15,7 +15,7 @@ export class LogCreateService {
 
   //se connecter
   public login(log:LoginHelper):Observable<UtilisateurModel>{
-    return this.httpClient.post<UtilisateurModel>(this.baseUrl + 'login', log).pipe(catchError(this.handleError));
+    return this.httpClient.post<UtilisateurModel>(this.baseUrl + 'login', log,{withCredentials:true}).pipe(catchError(this.handleError));
   }
 
 
@@ -26,6 +26,11 @@ export class LogCreateService {
     formData.append("utilisateur", JSON.stringify(utilisateur));
     formData.append("photo", photo);
     return this.httpClient.post<UtilisateurModel>(this.baseUrl + 'sigin', formData,{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  public me():Observable<UtilisateurModel>{
+    return this.httpClient.get<UtilisateurModel>(this.baseUrl + 'me',{withCredentials:true})
     .pipe(catchError(this.handleError));
   }
 
