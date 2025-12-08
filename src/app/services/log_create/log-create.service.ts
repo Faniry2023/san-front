@@ -5,6 +5,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UtilisateurHelper } from '../../helper/utilisateur-helper';
 import { LoginHelper } from '../../helper/login-helper';
+import { Gadm } from '../../models/gadm';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,10 @@ export class LogCreateService {
   public logout():Observable<void>{
     return this.httpClient.post<void>(this.baseUrl + 'logout',{},{withCredentials:true})
     .pipe(catchError(this.handleError));
+  }
+
+  insertGadm(gadm:Gadm):Observable<void>{
+    return this.httpClient.post<void>(this.baseUrl + 'insert/gadm', gadm,{withCredentials:true}).pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {

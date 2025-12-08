@@ -9,22 +9,44 @@
     <header>
         <app-header></app-header>
     </header>
-    @if(!show()){
-        <div class="sortie" (click)="showMenu()">
-            <mat-icon>chevron_right</mat-icon>
-        </div>
-    }
+              
     <div class="menu" [class.show]="show()">
-        <div class="hideMenu" (click)="showMenu()"><mat-icon class="my_icon">chevron_left</mat-icon></div>
-        <a >Accueil</a>
-        <a >Graphique</a>
-        <a class="active">Données</a>
-        <a >Carte</a>
-        <a >Utilisateur</a>
-        <a >Poste</a>
-        <a >Acces</a>
-        <a >Kobo Toolbox</a>
-        <a >Power BI</a>
+         <div class="btn" (click)="showMenu()">
+            @if(show()){
+                <a><mat-icon>chevron_left</mat-icon></a>
+            }@else {
+                <a><mat-icon>chevron_right</mat-icon></a>
+            }
+         </div>
+        <div class="menu1">
+            <!-- @for (page of pages; track $index) {
+                <a (click)="setPage(page)" [class.active]="pageStore.page() === 'Accueil'">Accueil</a>
+            } -->
+            <a (click)="setPage('Accueil')" [class.active]="pageStore.page() === 'Accueil'">Accueil</a>
+            <a (click)="setPage('Graphique')" [class.active]="pageStore.page() === 'Graphique'">Graphique</a>
+            <a (click)="setPage('Données')" [class.active]="pageStore.page() === 'Données'">Données</a>
+            <a (click)="setPage('Carte')" [class.active]="pageStore.page() === 'Carte'">Carte</a>
+            <a (click)="setPage('Utilisateur')" [class.active]="pageStore.page() === 'Utilisateur'">Utilisateur</a>
+            <a (click)="setPage('Poste')" [class.active]="pageStore.page() === 'Poste'">Poste</a>
+            <a (click)="setPage('Acces')" [class.active]="pageStore.page() === 'Acces'">Acces</a>
+            <a (click)="setPage('Kobo Toolbox')" [class.active]="pageStore.page() === 'Kobo Toolbox'">Kobo Toolbox</a>
+            <a (click)="setPage('Power BI')" [class.active]="pageStore.page() === 'Power BI'">Power BI</a>
+        </div>
+        <div class="icon">
+            <a (click)="setPage('Accueil')" [class.active]="pageStore.page() === 'Accueil'"><mat-icon>home</mat-icon></a>
+            <a (click)="setPage('Graphique')" [class.active]="pageStore.page() === 'Graphique'"><mat-icon>bar_chart</mat-icon></a>
+            <a (click)="setPage('Données')" [class.active]="pageStore.page() === 'Données'"><mat-icon>table_chart</mat-icon></a>
+            <a (click)="setPage('Carte')" [class.active]="pageStore.page() === 'Carte'"><mat-icon>map</mat-icon></a>
+            <a (click)="setPage('Utilisateur')" [class.active]="pageStore.page() === 'Utilisateur'"><mat-icon>groups</mat-icon></a>
+            <a (click)="setPage('Poste')" [class.active]="pageStore.page() === 'Poste'"><mat-icon>work</mat-icon></a>
+            <a (click)="setPage('Acces')" [class.active]="pageStore.page() === 'Acces'"><mat-icon>key</mat-icon></a>
+            <a (click)="setPage('Kobo Toolbox')" [class.active]="pageStore.page() === 'Kobo Toolbox'"><mat-icon>apps</mat-icon></a>
+            <a (click)="setPage('Power BI')" [class.active]="pageStore.page() === 'Power BI'"><mat-icon>analytics</mat-icon></a>
+        </div>
     </div>
+    <main>
+        <app-kobo-tool-box></app-kobo-tool-box>
+         <!-- <app-map></app-map> -->
+    </main>
 </body>
 </html>

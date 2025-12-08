@@ -8,9 +8,26 @@
   leaflet
   [leafletOptions]="mapOptions"
   [leafletLayers]="[currentLayer]"
-  style="height: 600px;"
+  style="height: 600px;width: 600px;"
 ></div>
 <button (click)="recupTout()">tout</button>
 <input type="text" #search placeholder="Chercher une province...">
 <button (click)="selectByName(search.value, 2)">Chercher</button>
 <button (click)="logFullGadmList()">Test spec</button>
+
+<div class="div">
+  <button (click)="logFullGadmList()">Envoyer les donnée</button>
+@if(otherLoadin()){
+    <mat-progress-spinner
+    mode="determinate"
+    diameter="160"
+    strokeWidth="25"
+    [value]="progress()">
+  </mat-progress-spinner>
+}
+  <h1>{{progress()}} %</h1>
+</div>
+
+<div class="ti">
+  <h1 class="titre-anim-gradient">Mon Grand Titre</h1>
+</div>

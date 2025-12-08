@@ -9,6 +9,7 @@ import { UtilisateurHelper } from "../helper/utilisateur-helper";
 import { LoginHelper } from "../helper/login-helper";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from "@angular/router";
+import { Gadm } from "../models/gadm";
 
 export interface UtilisateurState{
     utilisateur:UtilisateurModel | null;
@@ -75,10 +76,8 @@ export const UtilisateurStore = signalStore(
         async Logout(){
             patchState(store,{loading:true, isError:false, error:null});
             try{
-                console.log("avant execute logout")
                 await firstValueFrom(service.logout());
                 patchState(store,{utilisateur:null, loading:false, isLogged:false});
-                console.log("apres execute logout")
                 snackBar.open("Vous êtes déconnecter", 'Fermer', {
                     duration: 5000,
                 });
@@ -98,7 +97,7 @@ export const UtilisateurStore = signalStore(
                 patchState(store,{utilisateur:utilisateur, loading:false, isLogged:true});
             }catch(err:any){
                 const msrError = err?.detail;
-                patchState(store,{error:msrError, loading:false, isError:true, isLogged:false});
+                patchState(store,{utilisateur:null,error:msrError, loading:false, isError:true, isLogged:false});
             }
         },
         async checkSession(){
@@ -113,8 +112,17 @@ export const UtilisateurStore = signalStore(
             }else{
                 patchState(store,{loading:false});
             }
-        }
+        },
+        async insertGadm(gadm:Gadm){
+            patchState(store,{loading:true, isError:false, error:null});
+            try{
+                await firstValueFrom(service.insertGadm(gadm));
+                patchState(store,{loading:false, });
+            }catch(err:any){
+                const msrError = err?.detail;
+                patchState(store,{error:msrError, loading:false, isError:true});
+            }
+        },
     })
     )
-
 )
