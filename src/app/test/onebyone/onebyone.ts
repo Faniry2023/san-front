@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { latLng, tileLayer, geoJSON, MapOptions } from 'leaflet';
 import pays from '../../../assets/geojson/level00.json';
 import province from '../../../assets/geojson/level01.json';
@@ -7,10 +7,12 @@ import district from '../../../assets/geojson/level03.json';
 import commune from '../../../assets/geojson/level04.json';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import { Gadm } from '../../models/gadm';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { UtilisateurStore } from '../../store/utilisateur';
 
 @Component({
   selector: 'app-onebyone',
-  imports: [LeafletModule],
+  imports: [LeafletModule,MatProgressSpinner],
   templateUrl: './onebyone.html',
   styleUrl: './onebyone.css',
 })
@@ -18,6 +20,7 @@ export class Onebyone {
   supCode:string = "";
   infCode: any[] = [];
   ListGadm:Gadm[] = [];
+  store = inject(UtilisateurStore);
 
   //selection par recherche
   featuresLayers: any[] = [];
@@ -27,7 +30,7 @@ export class Onebyone {
 
   mapOptions: MapOptions = {
     center: latLng(-19.0, 47.0),
-    zoom: 6,
+    zoom: 8,
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
@@ -216,7 +219,12 @@ nameField: { [key: number]: string } = {
 
     this.highlightSelected(found.layer);
   }
-logFullGadmList() {
+
+  progress = signal(0);
+  total = 0;
+  otherLoadin = signal(false);
+  async logFullGadmList() {
+    this.otherLoadin.set(true);
   const results: Gadm[] = [];
 
   for (let level = 0; level <= 4; level++) {
@@ -233,7 +241,11 @@ logFullGadmList() {
       results.push(gadm);
     });
   }
-
+  this.total = results.length;
+  for(let i = 0; i< this.total; i++){
+    this.progress.set(Math.round((i*100)/this.total));
+    await this.store.insertGadm(results[i]);
+  }
   // Affichage propre
   results.forEach((g: Gadm) => {
     console.log(
@@ -241,6 +253,13 @@ logFullGadmList() {
     );
   });
 }
+
+// envoiGadm(){
+//   this.otherLoadin.set(true);
+//   for(let level = 0; level <=4; level++){
+//     const features = this.
+//   }
+// }
 
 
 }

@@ -8,9 +8,9 @@ import {
 } from "./chunk-5WHTYC2Q.js";
 import {
   DomSanitizer
-} from "./chunk-2YXRFOBK.js";
-import "./chunk-F4S42LBS.js";
+} from "./chunk-PXH7GB2H.js";
 import "./chunk-SQAQLYX5.js";
+import "./chunk-F4S42LBS.js";
 import {
   NgIf
 } from "./chunk-EDI2TDTB.js";

@@ -1,0 +1,47 @@
+body{
+    background-color: black ;
+}
+.div{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    h1{
+        position: absolute;
+        top: 77px;
+        left: 60px;
+    }
+}
+
+.ti{
+    background-color: black ;
+    position: fixed;
+    top: 600px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.titre-anim-gradient {
+     
+    height: 100px;
+  font-size: 60px; /* ton grand titre */
+  font-weight: bold;
+  background: linear-gradient(90deg, #0000ff, #ffffff);
+  background-size: 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 5s infinite linear;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="cartes">
+    <div class="option">
+      <input type="text" placeholder="recherche..." (input)="onSearch($event)">
+      <select [formControl]="levelControl">
+        <option [ngValue]="0">Pays</option>
+        <option [ngValue]="1">Province</option>
+        <option [ngValue]="2">Région</option>
+        <option [ngValue]="3">District</option>
+        <option [ngValue]="4">Commune</option>
+      </select>
+    </div>
+      <div
+      leaflet
+      [leafletOptions]="mapOptions"
+      [leafletLayers]="[currentLayer]"
+      class="carte"></div>
+  </div>
+  <div class="value">
+    <app-menu></app-menu>
+  </div>
+</div>
