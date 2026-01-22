@@ -1,18 +1,23 @@
+::ng-deep .white-spinner circle {
+  stroke: #ffffff !important;
+}
 .main{
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 100px;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
+    gap: 100px;
     
 }
 .kobo{
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
     height: 100%;
+    margin-left: 150px;
+    justify-self: flex-start;
 }
 .kobo .liste-projet, .kobo .liste-personne{
     display: flex;
@@ -80,4 +85,10 @@
         display: inline;
         color: white;
     }
+}
+.valuer{
+    max-width: 1400px;
+    height: 900px;
+    overflow-y: auto;
+    overflow-x: auto;
 }

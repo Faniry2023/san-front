@@ -45,7 +45,23 @@
         </div>
     </div>
     <main>
-        <app-kobo-tool-box></app-kobo-tool-box>
+        @switch (pageStore.page()) {
+            @case ('Graphique') {
+                <app-graphique></app-graphique>
+            }
+            @case ('Kobo Toolbox') {
+                <app-kobo-tool-box class="elements"></app-kobo-tool-box>
+            }
+            @case ('Carte') {
+                <app-map class="elements"></app-map>
+            }
+            @case ('Données') {
+                <app-donnees></app-donnees>
+            }
+            @default {
+                <app-home-components class="elements"></app-home-components>
+            }
+        }
          <!-- <app-map></app-map> -->
     </main>
 </body>

@@ -17,6 +17,21 @@
       class="carte"></div>
   </div>
   <div class="value">
-    <app-menu></app-menu>
+    <div class="menu">
+      <section>
+        <h2>{{data_type}}</h2>
+        <mat-button-toggle-group [(ngModel)]="data_type">
+          <mat-button-toggle value="Vulnérabilité">Vulnérabilité</mat-button-toggle>
+          <mat-button-toggle value="Situation district">Situation district</mat-button-toggle>
+        </mat-button-toggle-group>
+      </section>
+    </div>
+    <div class="data">
+    <div class="loading">
+      <mat-spinner class="white-spinner" [diameter]="150" [strokeWidth]="15"></mat-spinner>
+      <p>Chargement des données...</p>
+    </div>
+    </div>
+
   </div>
 </div>

@@ -2,21 +2,29 @@ import { Component, Signal, signal } from '@angular/core';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import { geoJSON, latLng, MapOptions, tileLayer } from 'leaflet';
 import { Menu } from './menu/menu';
-import { ReactiveFormsModule,FormControl } from '@angular/forms';
+import { ReactiveFormsModule,FormControl,FormsModule } from '@angular/forms';
 import { Gadm } from '../../models/gadm';
 import pays from '../../../assets/geojson/level00.json';
 import province from '../../../assets/geojson/level01.json';
 import regions from '../../../assets/geojson/level02.json';
 import district from '../../../assets/geojson/level03.json';
 import commune from '../../../assets/geojson/level04.json';
+import{MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-map',
-  imports: [LeafletModule,Menu,ReactiveFormsModule],
+  imports: [LeafletModule,
+    Menu,
+    ReactiveFormsModule,
+    FormsModule,
+    MatButtonToggleModule,
+    MatProgressSpinnerModule],
   templateUrl: './map.html',
   styleUrl: './map.css',
 })
 export class Map {
+  data_type?:string=""
   currentLayer: any;
  mapOptions: MapOptions = {
     center: latLng(-19.0, 47.0),

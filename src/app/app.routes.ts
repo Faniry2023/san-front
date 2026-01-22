@@ -7,6 +7,7 @@ import { NotFound } from './pages/not-found/not-found';
 import { Home } from './pages/home/home';
 import { loggedInGuard } from './guards/logged-in-guard';
 import { loggedOutGuard } from './guards/logged-out-guard';
+import { InfoSynch } from './components/kobo/info-synch/info-synch';
 
 export const routes: Routes = [
     {
@@ -35,6 +36,10 @@ export const routes: Routes = [
         path: 'home',
         component:Home,
         // canActivate:[loggedInGuard]
+    },
+    {
+        path:'info',
+        component:InfoSynch
     },
     {
         path: '**',

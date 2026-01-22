@@ -1,0 +1,53 @@
+<div class="main">
+    @if(!koboStore.isOnline()){
+        <div class="no-con">
+            <h3 style="color: red;">Vous êtes hors ligne, synchronisation impossible, veillez vérifier votre connexion.</h3>
+            <div class="btn-no-con">
+                <button mat-button color="danger" (click)="close()">
+                    Fermer
+                </button>
+            </div>
+            @if(koboStore.loading()){
+                <mat-spinner class="white-spinner" [diameter]="50" [strokeWidth]="5"></mat-spinner>
+                <p>Synchronisation en cours...</p>
+            }
+        </div>
+    }@else {
+        <div class="info">
+            <h1>Synchronisation des données</h1>
+            <p>Nous avons détécté </p>
+            <ul>
+                @if (retoureKoboFormulaire?.isMore) { <li>{{retoureKoboFormulaire?.countNew}} nouveaux formulaires ajouté</li> }
+                @if(retoureKoboFormulaire?.isLess) { <li>{{retoureKoboFormulaire?.countDel}} formulaires supprimer dans votre compte</li> }
+            </ul>
+            @if(retoureKoboFormulaire?.isLess){
+                <h2>Les formulaire à supprimer sont:</h2>
+                <small style="color: blue;">Cliquer les formulaires que vous voulez sauvegarder</small>
+                    @for (item of retoureKoboFormulaire?.koboForm; track $index) {
+                        <div class="del-form">
+                            <a [class.is-del]="(notDel.includes(item.uid))" (click)="isDelOrNo(item.uid)">{{item.nom_formulaire}}</a>
+                        </div>
+                        
+                    }
+            }
+            @if(koboStore.loading()){
+                <mat-spinner class="white-spinner" [diameter]="50" [strokeWidth]="5"></mat-spinner>
+                <p>Synchronisation en cours...</p>
+            }
+            @if(koboStore.isError()){
+                <p style="color: red;">erreur survenue : {{koboStore.error()}}</p>
+                <button mat-button color="danger" (click)="try()">
+                    Resseyer
+                </button>
+            }
+            
+            @if(retoureKoboFormulaire?.alert){
+                <p style="color: rgb(156, 156, 0);text-align: center;">Si on continue la synchronisation,nous allons supprimer les de données des formulaires qui n'est plus dans ton compte</p>
+                <button mat-button color="danger" (click)="try()">
+                    Continuer la synchronisation
+                </button>
+            }
+        </div>
+    }
+
+</div>
