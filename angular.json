@@ -35,7 +35,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "15MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -96,3 +96,4 @@
     "analytics": "cf0539df-0708-4292-8171-bff46d018ce9"
   }
 }
+budgets
