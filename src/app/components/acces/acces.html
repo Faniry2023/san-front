@@ -7,7 +7,7 @@
                     <a [class.active]="select_utilisateur() === item.utilisateur.id"(click)="select_user(item.utilisateur.id)">{{item.utilisateur.nom}} {{item.utilisateur.prenom}}</a>
                 }
             }@else {
-                <h4>Aucun utilisateur</h4>
+                <h4>Aucun utilisateur!</h4>
             }
         </div>
     </div>
