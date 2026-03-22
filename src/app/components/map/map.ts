@@ -1,6 +1,6 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, inject, Signal, signal } from '@angular/core';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
-import { geoJSON, latLng, MapOptions, tileLayer } from 'leaflet';
+import { geoJSON, latLng, MapOptions, tileLayer, Map as LeafletMap} from 'leaflet';
 import { Menu } from './menu/menu';
 import { ReactiveFormsModule,FormControl,FormsModule } from '@angular/forms';
 import { Gadm } from '../../models/gadm';
@@ -11,6 +11,12 @@ import district from '../../../assets/geojson/level03.json';
 import commune from '../../../assets/geojson/level04.json';
 import{MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AddSituationStore } from '../../store/addSituation.store';
+import { VulnerabiliteStore } from '../../store/vulnerabilite.store';
+import { VulnerabiliteHelper } from '../../helper/vulnerabilite/vulnerabilite-helper';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LoadingData } from '../kobo/loading-data/loading-data';
 
 @Component({
   selector: 'app-map',
@@ -24,9 +30,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './map.css',
 })
 export class Map {
+  situationStore = inject(AddSituationStore);
+  vulnerabiliteStore = inject(VulnerabiliteStore);
+  id_gadm_selected = signal("");
+  private dialogRef?:MatDialogRef<LoadingData>;
+  private dialog = inject(MatDialog);
+  router = inject(Router);
   data_type?:string=""
   currentLayer: any;
- mapOptions: MapOptions = {
+  mapOptions: MapOptions = {
     center: latLng(-19.0, 47.0),
     zoom: 6,
     layers: [
@@ -35,7 +47,13 @@ export class Map {
       })
     ]
   };
-ngOnInit() {
+async ngOnInit() {
+  this.openLoading();
+  await this.vulnerabiliteStore.getAll();
+  await this.situationStore.allInBd();
+  if(!this.vulnerabiliteStore.isLoading() && !this.situationStore.isLoading()){
+    this.dialogRef?.close();
+  }
   this.setLevel(0); // Province par défaut
 }
   levelSel= signal(0);
@@ -63,9 +81,18 @@ ngOnInit() {
     3: "NAME_3",
     4: "NAME_4"
   };
+  codeField: { [key: number]: string } = {
+    0: "GID_0",
+    1: "GID_1",
+    2: "GID_2",
+    3: "GID_3",
+    4: "GID_4"
+  };
+  map!:LeafletMap;
   setLevel(level: number) {
     this.featuresLayers = [];
     const field = this.nameField[level];
+    const codeField = this.codeField[level];
     this.currentLayer = geoJSON(this.levels[level], {
       style: {
         weight: 1,
@@ -74,13 +101,27 @@ ngOnInit() {
       },
       onEachFeature: (feature, layer) => {
         const name = feature.properties[field];
+        const code = feature.properties[codeField]
         layer.bindTooltip(name || "Sans nom");
+        layer.on('click',() =>{
+          this.highlightSelected(layer);
+          this.map.fitBounds((layer as any).getBounds());
+          this.selectZone(code,level);
+        })
         this.featuresLayers.push({
             feature,
             layer
           });
       }
     });
+  }
+  onMapReady(map:LeafletMap){
+    this.map = map;
+  }
+  async selectZone(id:string,level:number){
+    this.id_gadm_selected.set(id);
+    await this.vulnerabiliteStore.select_list_map(id);
+    await this.situationStore.select_list_map(id);
   }
 
   selectedLayer: any = null;
@@ -130,6 +171,14 @@ ngOnInit() {
     }
 
     this.highlightSelected(found.layer);
+  }
+  openLoading(){
+    this.dialogRef = this.dialog.open(LoadingData,{
+      width:'1%',
+      disableClose:true,
+      exitAnimationDuration:'10ms',
+      enterAnimationDuration:'100ms'
+    })
   }
 
 }

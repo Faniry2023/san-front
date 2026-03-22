@@ -8,6 +8,7 @@ import { isReponseKoboModel } from "../guards/isReponseKoboModel";
 import { firstValueFrom } from "rxjs";
 import { ReponseForViewHelper } from "../helper/reponse-for-view-helper";
 import { NoConnexHelper } from "../helper/no-connex-helper";
+import { ApiKeyKoboModel } from "../models/api-key-kobo-model";
 
 export interface KoboToolboxState{
     retoureProjects:RetoureKoboFormulaireHelper | NoConnexHelper | null;
@@ -20,6 +21,10 @@ export interface KoboToolboxState{
     reponseForViewH:ReponseForViewHelper | null;
     isOnline:boolean;
     loading_data:boolean;
+    apiOk:boolean;
+    deleteOk : boolean;
+    ajoutOk : boolean;
+    isSynch : boolean | undefined;
 }
 const initialState: KoboToolboxState = {
     retoureProjects : null,
@@ -31,7 +36,11 @@ const initialState: KoboToolboxState = {
     isFormTab : false,
     reponseForViewH : null,
     isOnline:false,
-    loading_data:false,      
+    loading_data:false,     
+    apiOk : false, 
+    deleteOk : false,
+    ajoutOk : false,
+    isSynch : false,
 }
 
 export const KoboToolboxStore = signalStore(
@@ -79,6 +88,63 @@ export const KoboToolboxStore = signalStore(
                 patchState(store, {isError:true, loading_data:false, error:msgError});
                 console.log("error store : " + msgError);
                 toastr.error(msgError,"Récupération des formulaire");
+            }
+        },
+        async testApi(){
+            patchState(store,{loading:false,isError:false,loading_data:true,apiOk:false});
+            try{
+                const reponse = await firstValueFrom(service.testApi());
+                patchState(store, {loading_data:false, isError:false,apiOk:reponse});
+            }catch(err:any){
+                const msgError = err?.detail;
+                patchState(store, {isError:true, loading_data:false, error:msgError});
+                console.log("error store : " + msgError);
+            }
+        },
+        async delete(){
+            patchState(store,{loading_data:true,isError:false,deleteOk:false});
+            try{
+                const reponse = await firstValueFrom(service.deleteApi());
+                patchState(store, {loading_data:false, isError:false,deleteOk:reponse,apiOk:false});
+                toastr.success('Votre key API est bien supprimer de nos données','Suppression d\'API key KOBO')
+            }catch(err:any){
+                const msgError = err?.detail;
+                patchState(store, {isError:true, loading_data:false, error:msgError});
+                console.log("error store : " + msgError);
+                toastr.error(msgError,"Erreur de suppression d'api");
+            }
+        },
+        async addApi(model:ApiKeyKoboModel){
+            patchState(store,{isError:false,loading_data:true,ajoutOk:false});
+            try{
+                const rps = await firstValueFrom(service.addApi(model));
+                patchState(store, {loading_data:false, isError:false,ajoutOk:rps,apiOk:true});
+            }catch(err:any){
+                const msgError = err?.detail;
+                patchState(store, {isError:true, loading_data:false, error:msgError});
+                toastr.error(msgError,"Erreur de suppression d'api");
+            }
+        },
+        videProjet(){
+            patchState(store,{isError:false,loading_data:true,ajoutOk:false});
+            try{
+                patchState(store, {formulaires:[] as FormulaireKoboModel[], loading_data:false,isError:false,retoureProjects:null,formulaireKobo:null,reponseForViewH:null});
+            }catch(err:any){
+                const msgError = err?.detail;
+                patchState(store, {isError:true, loading_data:false, error:msgError});
+                console.log("error store : " + msgError);
+                toastr.error(msgError,"Erreur de suppression d'api");
+            }
+        },
+        async SynchroOneForm(uid : string){
+            patchState(store,{isError:false,loading_data:true,isSynch:false});
+            try{
+                const rps = await firstValueFrom(service.synchOneForm(uid));
+                patchState(store, {loading_data:false, isError:false,isSynch:rps});
+            }catch(err:any){
+                const msgError = err?.detail;
+                patchState(store, {isError:true, loading_data:false, error:msgError});
+                toastr.error(msgError,"Erreur de synchronisation d'api");
             }
         }
     }))

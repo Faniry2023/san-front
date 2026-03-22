@@ -24,10 +24,10 @@
             } -->
             <a (click)="setPage('Accueil')" [class.active]="pageStore.page() === 'Accueil'">Accueil</a>
             <a (click)="setPage('Graphique')" [class.active]="pageStore.page() === 'Graphique'">Graphique</a>
-            <a (click)="setPage('Données')" [class.active]="pageStore.page() === 'Données'">Données</a>
+            <a (click)="setPage('Données')" [class.active]="pageStore.page() === 'Données'">Situation des district</a>
+            <a (click)="setPage('Vulnérabilité')" [class.active]="pageStore.page() === 'Vulnérabilité'">Vulnérabilité</a>
             <a (click)="setPage('Carte')" [class.active]="pageStore.page() === 'Carte'">Carte</a>
             <a (click)="setPage('Utilisateur')" [class.active]="pageStore.page() === 'Utilisateur'">Utilisateur</a>
-            <a (click)="setPage('Poste')" [class.active]="pageStore.page() === 'Poste'">Poste</a>
             <a (click)="setPage('Acces')" [class.active]="pageStore.page() === 'Acces'">Acces</a>
             <a (click)="setPage('Kobo Toolbox')" [class.active]="pageStore.page() === 'Kobo Toolbox'">Kobo Toolbox</a>
             <a (click)="setPage('Power BI')" [class.active]="pageStore.page() === 'Power BI'">Power BI</a>
@@ -36,9 +36,9 @@
             <a (click)="setPage('Accueil')" [class.active]="pageStore.page() === 'Accueil'"><mat-icon>home</mat-icon></a>
             <a (click)="setPage('Graphique')" [class.active]="pageStore.page() === 'Graphique'"><mat-icon>bar_chart</mat-icon></a>
             <a (click)="setPage('Données')" [class.active]="pageStore.page() === 'Données'"><mat-icon>table_chart</mat-icon></a>
+            <a (click)="setPage('Vulnérabilité')" [class.active]="pageStore.page() === 'Vulnérabilité'"><mat-icon>table_chart</mat-icon></a>
             <a (click)="setPage('Carte')" [class.active]="pageStore.page() === 'Carte'"><mat-icon>map</mat-icon></a>
             <a (click)="setPage('Utilisateur')" [class.active]="pageStore.page() === 'Utilisateur'"><mat-icon>groups</mat-icon></a>
-            <a (click)="setPage('Poste')" [class.active]="pageStore.page() === 'Poste'"><mat-icon>work</mat-icon></a>
             <a (click)="setPage('Acces')" [class.active]="pageStore.page() === 'Acces'"><mat-icon>key</mat-icon></a>
             <a (click)="setPage('Kobo Toolbox')" [class.active]="pageStore.page() === 'Kobo Toolbox'"><mat-icon>apps</mat-icon></a>
             <a (click)="setPage('Power BI')" [class.active]="pageStore.page() === 'Power BI'"><mat-icon>analytics</mat-icon></a>
@@ -46,8 +46,11 @@
     </div>
     <main>
         @switch (pageStore.page()) {
+            @case ('Accueil') {
+                <app-accueil class="elements"></app-accueil>
+            }
             @case ('Graphique') {
-                <app-graphique></app-graphique>
+                <app-graphique class="elements"></app-graphique>
             }
             @case ('Kobo Toolbox') {
                 <app-kobo-tool-box class="elements"></app-kobo-tool-box>
@@ -56,7 +59,16 @@
                 <app-map class="elements"></app-map>
             }
             @case ('Données') {
-                <app-donnees></app-donnees>
+                <app-donnees class="elements"></app-donnees>
+            }
+            @case ('Utilisateur') {
+                <app-formulaire></app-formulaire>
+            }
+            @case ('Acces') {
+                <app-acces class="elements"></app-acces>
+            }
+            @case ('Vulnérabilité') {
+                <app-vulnerabilite class="elements"></app-vulnerabilite>
             }
             @default {
                 <app-home-components class="elements"></app-home-components>

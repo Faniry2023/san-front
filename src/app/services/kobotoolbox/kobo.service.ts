@@ -5,6 +5,7 @@ import { RetoureKoboFormulaireHelper } from '../../helper/retoure-kobo-formulair
 import { FormulaireKoboModel } from '../../models/formulaire-kobo-model';
 import { ReponseForViewHelper } from '../../helper/reponse-for-view-helper';
 import { NoConnexHelper } from '../../helper/no-connex-helper';
+import { ApiKeyKoboModel } from '../../models/api-key-kobo-model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,25 @@ export class KoboService {
 
   public repForViHelper(uid:string):Observable<ReponseForViewHelper>{
     return this.httpClient.get<ReponseForViewHelper>(this.baseUrl + 'alldata/for/one/form/'+ uid)
+    .pipe(catchError(this.handleError));
+  }
+
+  public testApi():Observable<boolean>{
+    return this.httpClient.get<boolean>(this.baseUrl + "test/apikey",{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+  public deleteApi():Observable<boolean>{
+    return this.httpClient.delete<boolean>(this.baseUrl + "kobo/delete/api",{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  public addApi(apiKey : ApiKeyKoboModel):Observable<boolean>{
+    return this.httpClient.post<boolean>(this.baseUrl + "kobo/add/api",apiKey,{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  public synchOneForm(uid : string):Observable<boolean>{
+    return this.httpClient.get<boolean>(this.baseUrl + "kobo/synch/one/" + uid, {withCredentials:true})
     .pipe(catchError(this.handleError));
   }
 

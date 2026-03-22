@@ -11,6 +11,7 @@ export interface EnqueteState{
     isError : boolean;
     msgError : string | null;
     isLoading : boolean;
+    enqueteSelectLocal : EnqueteModel | null;
 }
 
 const initialState : EnqueteState = {
@@ -19,6 +20,7 @@ const initialState : EnqueteState = {
     isError : false,
     msgError : null,
     isLoading : false,
+    enqueteSelectLocal : null
 }
 
 export const EnqueteStore = signalStore(
@@ -49,6 +51,16 @@ export const EnqueteStore = signalStore(
                 const errorMessage = err?.detail;
                 patchState(store,{isLoading:false, isError:true, msgError:errorMessage})
                 toastr.error(errorMessage, 'Erreur d\'enregistrement');
+            }
+        },
+        selectEs(id: string){
+            patchState(store,{isLoading:true,isError:false});
+            const enquete = store.enquetes()?.find(e => e.id.toLocaleLowerCase() === id.toLocaleLowerCase());
+            if(enquete){
+                patchState(store,{isLoading:false,enqueteSelectLocal:enquete});
+            }else{
+                toastr.error("Aucun Enquete trouvées", 'Erreur');
+                patchState(store,{isLoading:false,isError:false});
             }
         }
     }))

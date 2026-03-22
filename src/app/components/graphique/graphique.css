@@ -1,0 +1,108 @@
+.container{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.container .gauche{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 55px;
+  section{
+    text-align: center;
+  }
+  
+  .gadm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  .liste{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    input{
+      width: 100%;
+      height: 30px;
+      padding: 0 5px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .valeurs{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 5px;
+      
+      a{
+        cursor: pointer;
+        border: 1px black solid;
+        padding: 5px 0;
+        text-align: center;
+        width: 100%;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+      }
+      a:hover{
+        letter-spacing: 5px;
+        background-color: #F09D21;
+      }
+    }
+  }
+}
+
+.droite{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  .one-chart,.tow-chart{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+.container .table th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+ .table tr:nth-child(even){background-color: #f2f2f2}
+
+ .table th {
+  background-color: #04AA6D;
+  color: white;
+}
+}
+
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.chart {
+  width: 100%;
+  height: 40vh;  /* 40% de la hauteur de la fenêtre */
+  min-height: 300px;
+}
+.charts {
+  width: 560px;
+  height: 60px;  /* 40% de la hauteur de la fenêtre */
+  min-height: 300px;
+}

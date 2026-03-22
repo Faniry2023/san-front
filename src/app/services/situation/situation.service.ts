@@ -5,6 +5,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { CompletSituationHelper } from '../../helper/complet-situation-helper';
 import { UpdateSituationHelper } from '../../helper/update-situation-helper';
 import { ListeSituationHelper } from '../../helper/liste-situation-helper';
+import { DisponibiliteHelper } from '../../helper/disponibilite-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,21 @@ export class SituationService {
 
   update(model:UpdateSituationHelper):Observable<CompletSituationHelper>{
     return this.httpClient.put<CompletSituationHelper>(this.baseUrl + 'situation/update', model, {withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  addDispo(model:DisponibiliteHelper):Observable<CompletSituationHelper>{
+    return this.httpClient.post<CompletSituationHelper>(this.baseUrl + 'situation/add/disp', model,{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  updateDispo(model:DisponibiliteHelper):Observable<DisponibiliteHelper>{
+    return this.httpClient.put<DisponibiliteHelper>(this.baseUrl + "situation/update/dispo", model, {withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  deleteDispo(id:string):Observable<void>{
+    return this.httpClient.delete<void>(this.baseUrl + "situation/delete/dispo/" + id, {withCredentials:true})
     .pipe(catchError(this.handleError));
   }
 

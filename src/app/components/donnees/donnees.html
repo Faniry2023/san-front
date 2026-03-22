@@ -225,7 +225,7 @@
                                     <td>{{item.temps.oct}}</td>
                                     <td>{{item.temps.nov}}</td>
                                     <td>{{item.temps.dec}}</td>
-                                    <td><a (click)="updateLocal(item)"><mat-icon class="edit">edit</mat-icon></a></td>
+                                    <td><a (click)="updateLocalStorage(item)"><mat-icon class="edit">edit</mat-icon></a></td>
                                     <td><a (click)="delete(item)"><mat-icon class="delete">delete</mat-icon></a></td>
                                 </tr>
                             }
@@ -236,76 +236,78 @@
                         }
                     }
                 </table>
+
+                
+            </div>
                 @if(situationStore.allsituation()!.length > 0){
                     <a class="save" (click)="saveAll()">Enregistrer</a>
                 }
-                
-            </div>
         </div>
     </form>
-    <div class="table">
-        <table>
-            <tr>
-                <th>Lieux</th>
-                <th>Enquête</th>
-                <th>ES</th>
-                <th>Denrée</th>
-                <th>Unité</th>
-                <th>Janvier</th>
-                <th>Février</th>
-                <th>Février</th>
-                <th>Avril</th>
-                <th>Mai</th>
-                <th>Juin</th>
-                <th>Juillet</th>
-                <th>Août</th>
-                <th>Septembre</th>
-                <th>Octobre</th>
-                <th>Novembre</th>
-                <th>Décembre</th>
-                <th colspan="2">Opération</th>
-            </tr>
-            @if(isLoadinBD()){
-                <tr>
-                    <td style="text-align: center;" [colSpan]="19">
-                        <div class="loading-table">
-                            <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
-                        </div>
-                        <!-- <mat-progress-spinner class="spinner"  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner> -->
-                    </td>
-                </tr>
-            }
-            @else {
-                @if(situationStore.allComplet() && situationStore.allComplet()!.length >= 1){
-                    @for (item of situationStore.allComplet(); track $index) {
-                        <tr>
-                            <td>{{item.gadm.nom}}</td>
-                            <td>{{item.enquete.nom}}</td>
-                            <td>{{item.es.nom}}</td>
-                            <td>{{item.produit.nom_prod}}</td>
-                            <td>{{item.produit.unite}}</td>
-                            <td>{{item.temps.jan}}</td>
-                            <td>{{item.temps.fev}}</td>
-                            <td>{{item.temps.mar}}</td>
-                            <td>{{item.temps.avr}}</td>
-                            <td>{{item.temps.mai}}</td>
-                            <td>{{item.temps.jui}}</td>
-                            <td>{{item.temps.juill}}</td>
-                            <td>{{item.temps.aou}}</td>
-                            <td>{{item.temps.sep}}</td>
-                            <td>{{item.temps.oct}}</td>
-                            <td>{{item.temps.nov}}</td>
-                            <td>{{item.temps.dec}}</td>
-                            <td><a (click)="updateDb(item)"><mat-icon class="edit">edit</mat-icon></a></td>
-                            <td><a (click)="deleteBd(item)"><mat-icon class="delete">delete</mat-icon></a></td>
-                        </tr>
-                    }
-                }@else {
-                    <tr>
-                        <td style="text-align: center;" [colSpan]="19">Aucun élément à enregistrer</td>
-                    </tr>
-                }
-            }
-        </table>
-    </div>
+          <div class="table">
+              <table>
+                  <tr>
+                      <th>Lieux</th>
+                      <th>Enquête</th>
+                      <th>ES</th>
+                      <th>Denrée</th>
+                      <th>Unité</th>
+                      <th>Janvier</th>
+                      <th>Février</th>
+                      <th>Février</th>
+                      <th>Avril</th>
+                      <th>Mai</th>
+                      <th>Juin</th>
+                      <th>Juillet</th>
+                      <th>Août</th>
+                      <th>Septembre</th>
+                      <th>Octobre</th>
+                      <th>Novembre</th>
+                      <th>Décembre</th>
+                      <th colspan="3">Opération</th>
+                  </tr>
+                  @if(situationStore.isLoading()){
+                      <tr>
+                          <td style="text-align: center;" [colSpan]="19">
+                              <div class="loading-table">
+                                  <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+                              </div>
+                              <!-- <mat-progress-spinner class="spinner"  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner> -->
+                          </td>
+                      </tr>
+                  }
+                  @else {
+                      @if(situationStore.allComplet() && situationStore.allComplet()!.length >= 1){
+                          @for (item of situationStore.allComplet(); track $index) {
+                              <tr>
+                                  <td>{{item.gadm.nom}}</td>
+                                  <td>{{item.enquete.nom}}</td>
+                                  <td>{{item.es.nom}}</td>
+                                  <td>{{item.produit.nom_prod}}</td>
+                                  <td>{{item.produit.unite}}</td>
+                                  <td>{{item.temps.jan}}</td>
+                                  <td>{{item.temps.fev}}</td>
+                                  <td>{{item.temps.mar}}</td>
+                                  <td>{{item.temps.avr}}</td>
+                                  <td>{{item.temps.mai}}</td>
+                                  <td>{{item.temps.jui}}</td>
+                                  <td>{{item.temps.juill}}</td>
+                                  <td>{{item.temps.aou}}</td>
+                                  <td>{{item.temps.sep}}</td>
+                                  <td>{{item.temps.oct}}</td>
+                                  <td>{{item.temps.nov}}</td>
+                                  <td>{{item.temps.dec}}</td>
+                                  <td><a (click)="openDispo(item)"><mat-icon class="edit">schedule</mat-icon></a></td>
+                                  <td><a (click)="updateDb(item)"><mat-icon class="edit">edit</mat-icon></a></td>
+                                  <td><a (click)="deleteBd(item)"><mat-icon class="delete">delete</mat-icon></a></td>
+                              </tr>
+                          }
+                      }@else {
+                          <tr>
+                              <td style="text-align: center;" [colSpan]="19">Aucun élément à enregistrer</td>
+                          </tr>
+                      }
+                  }
+              </table>
+          </div>
 </div>

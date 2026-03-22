@@ -1,0 +1,221 @@
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="s-m-d">
+            <div class="titre">
+                <h1>Vulnérabilité</h1>
+            </div>
+            <div class="anne">
+                <div class="one-input">
+                    <label for="ev">Province : </label>
+                    <select formControlName="id_province" [style.border]='(isValidOk() == "province") ? "2px red solid" : ""'>
+                        @for (item of gadmStore.provinces(); track $index) {
+                            <option [value]="item.id">{{item.nom}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="one-input">
+                    <label for="ev">Région : </label>
+                    <select formControlName="id_region" [style.border]='(isValidOk() == "region") ? "2px red solid" : ""'>
+                        @if (!list_region() || list_region().length < 1) {
+                            <option>Aucun...</option>
+                        }
+                        @else {
+                            @for (item of list_region(); track $index) {
+                                <option [value]="item.id">{{item.nom}}</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="one-input">
+                    <label for="ev">District : </label>
+                    <select formControlName="id_district" [style.border]='(isValidOk() == "district") ? "2px red solid" : ""'>
+                        @if(!list_district() || list_district().length < 1){
+                            <option value="">Aucun...</option>
+                        }@else {
+                            @for (item of list_district(); track $index) {
+                                <option [value]="item.id">{{item.nom}}</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="one-input">
+                    <label for="ev">Commune : </label>
+                    <select formControlName="id_commune" [style.border]='(isValidOk() == "commune") ? "2px red solid" : ""'>
+                            @if(!list_commune() || list_commune().length < 1){
+                                <option value="">Aucun...</option>
+                            }@else {
+                                @for (item of list_commune(); track $index) {
+                                    <option [value]="item.id">{{item.nom}}</option>
+                                }
+                            }
+                    </select>
+                </div>
+            </div>
+            <div class="anne">
+                <div class="one-input">
+                    <label for="des">Evenement : </label>
+                    <input type="text" id="des" placeholder="ex:Fisiana" formControlName="nom_evenement">
+                </div>
+                <div class="one-input">
+                    <label for="ev">Nom de l'enquête : </label>
+                    <select formControlName="id_enquete">
+                        @for (item of enqueteStore.enquetes(); track $index) {
+                            <option [value]="item.id">{{item.nom}}</option>
+                        }
+                    </select>
+                    <mat-icon class="add-es" (click)="openDialogEnquete()">add</mat-icon>
+                </div>
+                <div class="one-input">
+                    <label for="ev">ES : </label>
+                    <select formControlName="id_es">
+                        @for (item of esStore.liste_es(); track $index) {
+                            <option [value]="item.id">{{item.nom}} {{item.prenom}}</option>
+                        }
+                    </select>
+                    <mat-icon class="add-es" (click)="openDialogEs()">person_add</mat-icon>
+                </div>
+                <div class="one-input">
+                    <label for="ann">Année : </label>
+                    <input type="number" min="2000" [max]="yearNow()" id="ann" placeholder="années" formControlName="annee">
+                </div>
+                
+            </div>
+            <div class="new-data">
+                <div class="all-input">
+                    <div class="one-input">
+                        <label for="denre">Valeur de l'anquête :</label>
+                        <input formControlName="nom_val" type="text" id="denre" class="other" placeholder="ex:cyclone">
+                    </div>
+                    <div class="one-input">
+                        <label for="jan">Janvier</label>
+                        <input formControlName="jan" type="number" id="jan" min="0" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="fev">Février</label>
+                        <input formControlName="fev" min="0" type="number" id="fev" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="mar">Mars</label>
+                        <input formControlName="mar" min="0" type="number" id="mar" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="avr">Avril</label>
+                        <input formControlName="avr" min="0" type="number" id="avr" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="mai">Mai</label>
+                        <input formControlName="mai" min="0" type="number" id="mai" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="jui">Juin</label>
+                        <input formControlName="jui" min="0" type="number" id="jui" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="jllt">Juillet</label>
+                        <input formControlName="juil" min="0" type="number" id="jllt" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="aou">Août</label>
+                        <input formControlName="aou" min="0" type="number" id="aou" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="sep">Septembre</label>
+                        <input formControlName="sep" min="0" type="number" id="sep" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="oct">Octobre</label>
+                        <input formControlName="oct" min="0" type="number" id="oct" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="nov">Novembre</label>
+                        <input formControlName="nov" min="0" type="number" id="nov" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="dec">Décembre</label>
+                        <input formControlName="dec" min="0" type="number" id="dec" placeholder="en ariary">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                    @if(isUpdate()){
+                        <div class="icon">
+                            <button type="submit" ><mat-icon class="icon-add">save</mat-icon></button>
+                        </div>
+                        <div class="icon">
+                            <button type="button" (click)="cancel()"><mat-icon class="icon-add">cancel</mat-icon></button>
+                        </div>
+                    }
+                    @else {
+                        <div class="icon">
+                            <button type="submit" ><mat-icon class="icon-add">add</mat-icon></button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="table">
+        <table>
+            <tr>
+                <th>Lieux</th>
+                <th>Enquête</th>
+                <th>ES</th>
+                <th>Evenement</th>
+                <th>Clé</th>
+                <th>Janvier</th>
+                <th>Février</th>
+                <th>Février</th>
+                <th>Avril</th>
+                <th>Mai</th>
+                <th>Juin</th>
+                <th>Juillet</th>
+                <th>Août</th>
+                <th>Septembre</th>
+                <th>Octobre</th>
+                <th>Novembre</th>
+                <th>Décembre</th>
+                <th colspan="2" style="text-align: center;">Opération</th>
+            </tr>
+            @if(vulnerabiliteStore.isLoading() && !isLoadingBtn()){
+                <tr>
+                    <td style="text-align: center;" [colSpan]="19">
+                        <div class="loading-table">
+                            <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+                        </div>
+                        <!-- <mat-progress-spinner class="spinner"  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner> -->
+                    </td>
+                </tr>
+            }
+            @else {
+                @if(vulnerabiliteStore.listeVulnerabilite() && vulnerabiliteStore.listeVulnerabilite().length >= 1){
+                    @for (item of vulnerabiliteStore.listeVulnerabilite(); track $index) {
+                        <tr>
+                            <td>{{item.gadm?.nom}}</td>
+                            <td>{{item.enquete?.nom}}</td>
+                            <td>{{item.es.nom}}</td>
+                            <td>{{item.evenement?.cle_principal}}</td>
+                            <td>{{item.val_mensuel?.nom_val}}</td>
+                            <td>{{item.temps.jan}}</td>
+                            <td>{{item.temps.fev}}</td>
+                            <td>{{item.temps.mar}}</td>
+                            <td>{{item.temps.avr}}</td>
+                            <td>{{item.temps.mai}}</td>
+                            <td>{{item.temps.jui}}</td>
+                            <td>{{item.temps.juill}}</td>
+                            <td>{{item.temps.aou}}</td>
+                            <td>{{item.temps.sep}}</td>
+                            <td>{{item.temps.oct}}</td>
+                            <td>{{item.temps.nov}}</td>
+                            <td>{{item.temps.dec}}</td>
+                            <td><a (click)="update(item)"><mat-icon class="edit">edit</mat-icon></a></td>
+                            <td><a (click)="delete(item)"><mat-icon class="delete">delete</mat-icon></a></td>
+                        </tr>
+                    }
+                }@else {
+                    <tr>
+                        <td style="text-align: center;" [colSpan]="19">Aucun élément à enregistrer</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>

@@ -1,13 +1,24 @@
 <div class="main">
+    <div class="menu-kob">
+        @if(!loadDel()){
+            @if(!koboStore.apiOk()){
+                <a (click)="ajoutApi()">Ajouter API</a>
+                
+            }@else {
+                <a (click)="deleteApi()">Supprimer</a>
+                <a (click)="recProj()">Synchroniser</a>
+            }
+        }@else {
+            <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+        }
+    </div>
     <div class="kobo">
         <div class="liste-projet">
             <h1>Projets</h1>
-            <a (click)="test()">TestSynch</a>
             <div class="search">
                 <input type="text" placeholder="recherche...">
             </div>
             <div class="lst">
-                
                 <!-- <a>Enquete Vulnérabilité</a>
                 <a class="active">Recensement</a>
                 <h4>Aucun projet sur ce compte</h4> -->

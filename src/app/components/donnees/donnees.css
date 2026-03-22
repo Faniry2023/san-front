@@ -5,10 +5,12 @@
     justify-content: center;
     gap: 20px;
     width: 100%;
+    overflow-y: auto;
 }
 .container .table table {
   border-collapse: collapse;
   width: 100%;
+  overflow-y: auto;
   .delete, .edit{
     cursor: pointer;
     color: red;
@@ -21,13 +23,11 @@
   }
 }
 .container .table{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    overflow-y: auto;
     gap: 20px;
+    max-height: 600px;
 }
-.container .table a{
+.container a{
     cursor: pointer;
     color: white;
     width: 100%;
@@ -39,10 +39,10 @@
     font-weight: 600;
 
 }
-.container .table a.save{
+.container a.save{
     background-color: #111e31;
 }
-.container .table a.save:hover{
+.container  a.save:hover{
     background-color: #111e31;
     letter-spacing: 8px;
 }

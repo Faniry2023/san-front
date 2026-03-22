@@ -17,17 +17,25 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { LoadingData } from '../kobo/loading-data/loading-data';
 import { CompletSituationHelper } from '../../helper/complet-situation-helper';
 import { UpdateSituationHelper } from '../../helper/update-situation-helper';
+import { Dispo } from './dispo/dispo';
 
 @Component({
   selector: 'app-donnees',
-  imports: [MatIconButton, MatIcon, FormsModule,ReactiveFormsModule,MatProgressSpinner],
+  imports: [
+    MatIcon, 
+    FormsModule,
+    ReactiveFormsModule,
+    MatProgressSpinner],
   templateUrl: './donnees.html',
   styleUrl: './donnees.css',
 })
 export class Donnees implements OnInit{
   isUpload = signal(false);
   isUpdateBd = signal(false);
-  updateSituationBd! : UpdateSituationHelper;
+  updateSituationBd : UpdateSituationHelper = {
+    produit : null as any,
+    temps : null as any
+  };
   oldSituation! : SituationHelper;
   liste_commune = signal([]);
   esStore = inject(EsStore);
@@ -54,7 +62,7 @@ export class Donnees implements OnInit{
     'id_region' : [''],
     'id_district' : [''],
     'id_commune' : [''],
-    'fokontany' : [''],
+    'fokontany' : ['...'],
     'id_es' : ['',[Validators.required]],
     'cle' : ['',[Validators.required]],
     'id_enquete' : ['',[Validators.required]],
@@ -368,10 +376,14 @@ export class Donnees implements OnInit{
       enterAnimationDuration:'100ms'
     })
   }
-  async updateLocal(situation:SituationHelper){
-    this.oldSituation = situation;
+  async updateLocalStorage(situation:SituationHelper){
     this.isUpload.set(true);
     this.isUpdateBd.set(false);
+    await this.update(situation);
+  }
+  async update(situation:SituationHelper){
+    this.isUpload.set(true);
+    this.oldSituation = situation;
     this.form.get('id_es')?.setValue(situation.es.id);
     this.form.get('cle')?.setValue(situation.produit.cle);
     this.form.get('id_enquete')?.setValue(situation.produit.id_enquete);
@@ -442,18 +454,42 @@ export class Donnees implements OnInit{
     }
   }
   async updateDb(csh : CompletSituationHelper){
-    
     this.isUpdateBd.set(true);
     this.isUpload.set(false);
-    this.updateSituationBd.produit = csh.produit;
-    this.updateSituationBd.temps = csh.temps;
-    alert('click edit');
+    this.updateSituationBd = {
+      produit: csh.produit,
+      temps: csh.temps
+    }
     const situation : SituationHelper = {
       produit : csh.produit,
       temps : csh.temps,
       es : csh.es
     }
-    
-    await this.updateLocal(situation);
+    situation.produit.id_enquete = situation.produit.id_enquete.toLowerCase();
+    await this.update(situation);
   }
+  isNull = signal(true);
+  openDispo(par:CompletSituationHelper){
+    this.isNull.set(true);
+    if(par.disponibilite && par.disponibilite.id != null){
+      this.isNull.set(false);
+    }
+    this.dialog.open(Dispo,{
+      width:'1200px',
+      maxWidth:'200vw',
+      height:'30%',
+      disableClose:true,
+      exitAnimationDuration:'300ms',
+      enterAnimationDuration:'100ms',
+      data:{
+        'prod':par.produit,
+        'anne':par.temps.annee,
+        'es':par.es.nom,
+        'isNull': this.isNull(),
+        'dispo':this.isNull() ? '' : par.disponibilite
+      }
+    })
+  }
+
+
 }

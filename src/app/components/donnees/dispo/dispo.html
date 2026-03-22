@@ -1,0 +1,94 @@
+<div class="container">
+    <h1>Ajout disponibilité</h1>
+    <div class="info">
+        <div class="one">
+             <p><span style="font-weight: 700;">denréé</span> : {{prod()?.nom_prod}}</p>
+        </div>
+        <div class="one">
+             <p><span style="font-weight: 700;">Es</span> : {{es()}}</p>
+        </div>
+        <div class="one">
+             <p><span style="font-weight: 700;">Année</span> : {{annee()}}</p>
+        </div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="add()">
+            <div class="new-data">
+                <div class="all-input">
+                    <div class="one-input">
+                        <label for="jan">Janvier</label>
+                        <input formControlName="jan" type="number" id="jan" min="0" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="fev">Février</label>
+                        <input formControlName="fev" min="0" type="number" id="fev" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="mar">Mars</label>
+                        <input formControlName="mar" min="0" type="number" id="mar" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="avr">Avril</label>
+                        <input formControlName="avr" min="0" type="number" id="avr" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="mai">Mai</label>
+                        <input formControlName="mai" min="0" type="number" id="mai" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="jui">Juin</label>
+                        <input formControlName="jui" min="0" type="number" id="jui" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="jllt">Juillet</label>
+                        <input formControlName="juil" min="0" type="number" id="jllt" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="aou">Août</label>
+                        <input formControlName="aou" min="0" type="number" id="aou" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="sep">Septembre</label>
+                        <input formControlName="sep" min="0" type="number" id="sep" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="oct">Octobre</label>
+                        <input formControlName="oct" min="0" type="number" id="oct" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="nov">Novembre</label>
+                        <input formControlName="nov" min="0" type="number" id="nov" placeholder="en ariary">
+                    </div>
+                    <div class="one-input">
+                        <label for="dec">Décembre</label>
+                        <input formControlName="dec" min="0" type="number" id="dec" placeholder="en ariary">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                    @if(!situationStore.isLoading()){
+                        @if (isNull() || isEdit()) {
+                        <div class="icon">
+                            <button type="submit" ><mat-icon class="icon-add">save</mat-icon></button>
+                        </div>
+                        }
+                        @else {
+                            <div class="icon">
+                                <button type="button" (click)="edit()"><mat-icon class="icon-add">edit</mat-icon></button>
+                            </div>
+                            @if (!isEdit()) {
+                                <div class="icon">
+                                    <button type="button" (click)="delete(disponibiliteOld()?.id!)"><mat-icon class="icon-add">delete</mat-icon></button>
+                                </div>
+                            }
+                        }
+                        <div class="icon">
+                            <button type="button" (click)="cancel()"><mat-icon class="icon-add">cancel</mat-icon></button>
+                        </div>
+                        
+                    }
+                    @else{
+                        <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+                    }
+                </div>
+            </div>
+    </form>
+</div>
