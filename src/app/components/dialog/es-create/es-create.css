@@ -1,0 +1,41 @@
+::ng-deep .white-spinner circle {
+  stroke: #ffffff !important;
+}
+::ng-deep .orange-spinner circle {
+  stroke: #F09D21 !important;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+}
+.container form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.container .btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.container form .btn-login{
+    width: 150px;
+    background-color: #23385A;
+    color: white;
+}
+.container form .btn-login:hover{
+    background-color: #16243a;
+}
+.container form .btn-login-fermer{
+    background-color: #F09D21;
+    color: white;
+}
+.container form .btn-login-fermer:hover{
+    background-color: #c5811c;
+}

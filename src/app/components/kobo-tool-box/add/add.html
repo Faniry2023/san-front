@@ -1,0 +1,21 @@
+<div class="container">
+    <h1>Api Key KOBO TOOLBOX</h1>
+    <form [formGroup]="form" (ngSubmit)="add()">
+            <div class="new-data">
+                <div class="all-input">
+                    <div class="one-input">
+                        <label for="jan">Key</label>
+                        <input formControlName="api" type="text"placeholder="votre api key">
+                    </div>
+                </div>
+            </div>
+            <div class="btn">
+                @if (apiStore.loading_data() || apiStore.loading()) {
+                    <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+                }@else {
+                    <button type="submit">Enregistrer</button>
+                    <a class="x" (click)="cancel()">Annuler</a>
+                }
+            </div>
+    </form>
+</div>

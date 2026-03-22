@@ -7,16 +7,17 @@
     </div>
     <div class="compte">
         <div class="np">
-            <p>RAFANOMEZANTSOA</p>
-            <p>Mahazo Tina Faniry</p>
+            <p>{{utilisateurAuth.utiAuth()?.utilisateur?.nom}}</p>
+            <p>{{utilisateurAuth.utiAuth()?.utilisateur?.prenom}}</p>
         </div>
         <div class="photo" (click)="btnMenu()">
-            <img src="assets/pin.jpg" alt="">
+            <!-- <img src="assets/pin.jpg" alt=""> -->
+             <img [src]="'data:image/png;base64,' + utilisateurAuth.utiAuth()?.photo" alt="">
         </div>
     </div>
 </div>
     <div class="menu" [class.show]="showMenu()">
-        <div class="photo"><img src="assets/pin.jpg" alt="" ></div>
+        <div class="photo"><img [src]="'data:image/png;base64,' + utilisateurAuth.utiAuth()?.photo" alt="" ></div>
         <div class="menu-list">
             <a href="">Compte</a>
             <a href="">Modification</a>

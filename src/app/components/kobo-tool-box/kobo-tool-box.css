@@ -1,20 +1,38 @@
+::ng-deep .white-spinner circle {
+  stroke: #ffffff !important;
+}
 .main{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
-    gap: 100px;
     height: 100%;
     width: 100%;
-    
+    gap: 20px;
+    a{
+        background-color: #000138;
+        color: white;
+        margin-top: 50px;
+        margin-left: 30px;
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+    mat-progress-spinner{
+        margin-top: 50px;
+        margin-left: 50px;
+    }
 }
 .kobo{
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
     height: 100%;
+    margin-left: 150px;
+    justify-self: flex-start;
 }
 .kobo .liste-projet, .kobo .liste-personne{
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,11 +70,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
     a{
         cursor: pointer;
         background-color: #00028f;
-        width: 250px;
+        width: 200px;
         text-align: center;
         padding: 10px;
         color: rgb(231, 231, 231);
@@ -64,6 +82,7 @@
         font-size: 20px;
         font-weight: 600;
         transition: all 0.5s ease;
+        margin: 0;
     }
     a:hover{
         background-color: #0104d4;
@@ -80,4 +99,14 @@
         display: inline;
         color: white;
     }
+}
+.valuer{
+    max-width: 1400px;
+    height: 900px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.menu-kob{
+    position: fixed;
+    top: 90px;
 }

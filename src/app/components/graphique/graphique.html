@@ -1,0 +1,242 @@
+<div class="container">
+  <div class="gauche">
+    <div class="type">
+      <section>
+        <h2>{{data_type()}}</h2>
+        <mat-button-toggle-group (change)="data_type.set($event.value)" [value]="data_type()">
+          <mat-button-toggle value="Vulnérabilité">Vulnérabilité</mat-button-toggle>
+          <mat-button-toggle value="Situation district">Situation district</mat-button-toggle>
+        </mat-button-toggle-group>
+      </section>
+    </div>
+    <form [formGroup]="form">
+      <div class="gadm">
+        @if(data_type() == "Vulnérabilité" || data_type() == "Situation district"){
+          <select formControlName="nv" id="">
+            <option value="1">Province</option>
+            <option value="2">Région</option>
+            <option value="3">District</option>
+            <option value="4">Commune</option>
+          </select>
+          <select formControlName="id_province">
+            @for (item of gadmStore.provinces(); track $index) {
+              <option [value]="item.id">{{item.nom}}</option>
+            }
+          </select>
+        }
+        @if (nv() >= 2) {
+          <select formControlName="id_region">
+            @if(liste_region()){
+              @for (item of liste_region(); track $index) {
+                <option [value]="item.id">{{item.nom}}</option>
+              }
+            }@else {
+                <option value="">Aucun...</option>
+            }
+          </select>
+        }
+        @if (nv() >= 3) {
+          <select formControlName="id_district">
+            @if(liste_district()){
+              @for (item of liste_district(); track $index) {
+                <option [value]="item.id">{{item.nom}}</option>
+              }
+            }@else {
+                <option value="">Aucun...</option>
+            }
+          </select>
+        }
+        @if(nv() >= 4){
+          <select formControlName="id_commune">
+            @if(liste_commune()){
+              @for (item of liste_commune(); track $index) {
+                <option [value]="item.id">{{item.nom}}</option>
+              }
+            }@else {
+                <option value="">Aucun...</option>
+            }
+          </select>
+        }
+      </div>
+    </form>
+    <div class="liste">
+      @if(data_type() == "Vulnérabilité" || data_type() == "Situation district"){
+        <div class="recherche"><input type="text" placeholder="recherche..." (input)="recherche.set($any($event.target).value)"></div>
+      }
+      <div class="valeurs">
+        @if(data_type() == "Vulnérabilité"){
+          @if(listeVulnerabilite() && listeVulnerabilite().length > 0){
+            @for (item of listeVulnerabilite(); track $index) {
+              <a (click)="oneValueVul(item.val_mensuel?.id)">{{item.val_mensuel?.nom_val}}</a>
+            }
+          }@else {
+            <h4>Aucun élément.</h4>
+          }
+        }
+        @if(data_type()  == "Situation district"){
+          @if(listeSituation() && listeSituation().length > 0){
+            @for (item of listeSituation(); track $index) {
+              <a (click)="oneValuesit(item.produit.id)">{{item.produit.nom_prod}}</a>
+            }
+          }@else {
+            <h4>Aucun élément.</h4>
+          }
+        }
+      </div>
+    </div>
+  </div>
+  <div class="droite">
+    <div class="one-chart">
+      <div echarts class="charts" [options]="barOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+      <div echarts class="charts" [options]="lineOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+    </div>
+    <div class="tow-chart">
+      <div echarts class="charts" [options]="scatterOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+      <div echarts class="charts" [options]="pieOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+    </div>
+    <div class="value">
+      <div class="data">
+        @if (data_type() == "Vulnérabilité") {
+          <div class="vulnerabilite">
+            <div class="table">
+                <table>
+                    <tr>
+                        <th>Lieux</th>
+                        <th>Enquête</th>
+                        <th>ES</th>
+                        <th>Evenement</th>
+                        <th>Clé</th>
+                        <th>Janvier</th>
+                        <th>Février</th>
+                        <th>Février</th>
+                        <th>Avril</th>
+                        <th>Mai</th>
+                        <th>Juin</th>
+                        <th>Juillet</th>
+                        <th>Août</th>
+                        <th>Septembre</th>
+                        <th>Octobre</th>
+                        <th>Novembre</th>
+                        <th>Décembre</th>
+                        <th colspan="2" style="text-align: center;">Opération</th>
+                    </tr>
+                    @if(vulnerabiliteStore.isLoading()){
+                        <tr>
+                            <td style="text-align: center;" [colSpan]="19">
+                                <div class="loading-table">
+                                    <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    @else {
+                        @if(vulnerabiliteStore.selectChartVulnerabilite()){
+                          <tr>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.gadm?.nom}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.enquete?.nom}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.es!.nom}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.evenement?.cle_principal}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.val_mensuel?.nom_val}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.jan}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.fev}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.mar}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.avr}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.mai}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.jui}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.juill}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.aou}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.sep}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.oct}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.nov}}</td>
+                              <td>{{vulnerabiliteStore.selectChartVulnerabilite()?.temps!.dec}}</td>
+                          </tr>
+                        }@else {
+                            <tr>
+                                <td style="text-align: center;" [colSpan]="19">Aucun élément à enregistrer</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+          </div>
+        }@if (data_type() == "Situation district") {
+          <div class="sd">
+            <div class="table">
+                <table>
+                    <tr>
+                        <th>Lieux</th>
+                        <th>Enquête</th>
+                        <th>ES</th>
+                        <th>Denrée</th>
+                        <th>Unité</th>
+                        <th>Janvier</th>
+                        <th>Février</th>
+                        <th>Février</th>
+                        <th>Avril</th>
+                        <th>Mai</th>
+                        <th>Juin</th>
+                        <th>Juillet</th>
+                        <th>Août</th>
+                        <th>Septembre</th>
+                        <th>Octobre</th>
+                        <th>Novembre</th>
+                        <th>Décembre</th>
+                        <th colspan="2">Opération</th>
+                    </tr>
+                    @if(situationStore.isLoading()){
+                        <tr>
+                            <td style="text-align: center;" [colSpan]="19">
+                                <div class="loading-table">
+                                    <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+                                </div>
+                                <!-- <mat-progress-spinner class="spinner"  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner> -->
+                            </td>
+                        </tr>
+                    }
+                    @else {
+                        @if(situationStore.selectChartComplet()){
+                                <tr>
+                                    <td>{{situationStore.selectChartComplet()?.gadm!.nom}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.enquete!.nom}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.es!.nom}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.produit!.nom_prod}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.produit!.unite}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.jan}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.fev}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.mar}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.avr}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.mai}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.jui}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.juill}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.aou}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.sep}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.oct}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.nov}}</td>
+                                    <td>{{situationStore.selectChartComplet()?.temps!.dec}}</td>
+                                    <!-- <td><a (click)="updateDb(item)"><mat-icon class="edit">edit</mat-icon></a></td> -->
+                                    <!-- <td><a (click)="deleteBd(item)"><mat-icon class="delete">delete</mat-icon></a></td> -->
+                                </tr>
+                        }@else {
+                            <tr>
+                                <td style="text-align: center;" [colSpan]="19">Aucun élément à enregistrer</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="grid">
+  <div echarts class="charts" [options]="barOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+  <div echarts class="chart" [options]="lineOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+  <div echarts class="chart" [options]="scatterOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+  <div echarts class="chart" [options]="pieOption" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+</div> -->

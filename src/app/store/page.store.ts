@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 export interface PageState{
-    page:'Accueil'|'Graphique'|'Données'|'Carte'|'Utilisateur'|'Poste'|'Acces'|'Kobo Toolbox'|'Power BI';
+    page:'Accueil'|'Graphique'|'Données'|'Carte'|'Utilisateur'|'Poste'|'Acces'|'Kobo Toolbox'|'Power BI'|'Vulnérabilité';
     loading:boolean;
 }
 const initialState:PageState = {
@@ -20,13 +20,13 @@ export const PageStore = signalStore(
         serviceStore = inject(UtilisateurStore),
         snackBar = inject(MatSnackBar)
     ) => ({
-        async setPageState(page:'Accueil'|'Graphique'|'Données'|'Carte'|'Utilisateur'|'Poste'|'Acces'|'Kobo Toolbox'|'Power BI'){
+        async setPageState(page:'Accueil'|'Graphique'|'Données'|'Carte'|'Utilisateur'|'Poste'|'Acces'|'Kobo Toolbox'|'Power BI'|'Vulnérabilité'){
             // patchState(store,{loading:true});
             // await serviceStore.Me();
             patchState(store,{loading:false,page:page});
-            // if(serviceStore.isLogged()){
+            // if(serviceStore.isLogged()){loading:false,page:page})
             //     localStorage.setItem('page',page);
-            //     patchState(store,{loading:false,page:page});
+            //     patchState(store,{loading
             // }else{
             //     snackBar.open('Votre session est expiré, veillez vous se connecter à nouveau',
             //         'Fermer',{duration:10000}

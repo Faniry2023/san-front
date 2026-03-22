@@ -6,6 +6,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UtilisateurHelper } from '../../helper/utilisateur-helper';
 import { LoginHelper } from '../../helper/login-helper';
 import { Gadm } from '../../models/gadm';
+import { UtilisateurAuthoriseHelper } from '../../helper/utilisateur-authorise-helper';
+import { AuthoriseModel } from '../../models/authorise-model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,26 +17,35 @@ export class LogCreateService {
   private baseUrl = "https://localhost:7008/";
 
   //se connecter
-  public login(log:LoginHelper):Observable<UtilisateurModel>{
-    return this.httpClient.post<UtilisateurModel>(this.baseUrl + 'login', log,{withCredentials:true}).pipe(catchError(this.handleError));
+  public login(log:LoginHelper):Observable<UtilisateurAuthoriseHelper>{
+    return this.httpClient.post<UtilisateurAuthoriseHelper>(this.baseUrl + 'login', log,{withCredentials:true}).pipe(catchError(this.handleError));
   }
 
 
   //creation utilisateur avec son login
-  public create(login:LoginModel, utilisateur:UtilisateurHelper, photo:File):Observable<UtilisateurModel>{
+  public create(login:LoginModel, utilisateur:UtilisateurHelper, photo:File):Observable<UtilisateurAuthoriseHelper>{
     const formData = new FormData();
     formData.append("login", JSON.stringify(login));
     formData.append("utilisateur", JSON.stringify(utilisateur));
     formData.append("photo", photo);
-    return this.httpClient.post<UtilisateurModel>(this.baseUrl + 'sigin', formData,{withCredentials:true})
+    return this.httpClient.post<UtilisateurAuthoriseHelper>(this.baseUrl + 'sigin', formData,{withCredentials:true})
     .pipe(catchError(this.handleError));
   }
 
-  public me():Observable<UtilisateurModel>{
-    return this.httpClient.get<UtilisateurModel>(this.baseUrl + 'me',{withCredentials:true})
+  public me():Observable<UtilisateurAuthoriseHelper>{
+    return this.httpClient.get<UtilisateurAuthoriseHelper>(this.baseUrl + 'me',{withCredentials:true})
     .pipe(catchError(this.handleError));
   }
 
+  public getAllUser():Observable<UtilisateurAuthoriseHelper[]>{
+    return this.httpClient.get<UtilisateurAuthoriseHelper[]>(this.baseUrl + 'getalluser',{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  public addAuthorise(model:AuthoriseModel):Observable<AuthoriseModel>{
+    return this.httpClient.post<AuthoriseModel>(this.baseUrl + "addauthorise", model, {withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
   public logout():Observable<void>{
     return this.httpClient.post<void>(this.baseUrl + 'logout',{},{withCredentials:true})
     .pipe(catchError(this.handleError));

@@ -1,0 +1,94 @@
+<div class="container">
+    <h1>Formulaire des ES</h1>
+    <form [formGroup]="form" (submit)="save()">
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Nom : </mat-label>
+            <input matInput formControlName="nom">
+            <mat-icon matSuffix>person</mat-icon>
+            @if (isFieldValid('nom')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Prenom : </mat-label>
+            <input matInput formControlName="prenom">
+            <mat-icon matSuffix>person</mat-icon>
+            @if (isFieldValid('prenom')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Nombre total du site : </mat-label>
+            <input type="number" matInput formControlName="nb_site">
+            <mat-icon matSuffix>person</mat-icon>
+            @if (isFieldValid('nb_site')) {
+                @if(form.get('nb_site')?.hasError('required')){
+                    <mat-error class="error">Ce champs est obligatoire</mat-error>
+                }
+                @if(form.get('nb_site')?.hasError('min')){
+                    <mat-error class="error">Veillez entré un nombre supérieur à 0</mat-error>
+                }
+                @if(form.get('nb_site')?.hasError('max')){
+                    <mat-error class="error">Le nombre maximal pour ce champs est de 100</mat-error>
+                }
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Téléphone : </mat-label>
+            <input matInput formControlName="telephone">
+            <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+        @if(!gadmStore.isLoading()){
+        <mat-form-field>
+            <mat-label>Région</mat-label>
+            <mat-select [(value)]="selectedValueRegion" (selectionChange)="onSelectChangeDistrict($event)" formControlName="id_gadm_region">
+                @for (item of gadmStore.regions(); track $index) {
+                    <mat-option [value]="item.id">{{item.nom}}</mat-option>
+                }
+                
+            </mat-select>
+            @if (isFieldValid('id_gadm_region')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        }@else {
+        <mat-progress-spinner class="orange-spinner"  diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
+        }
+        <mat-form-field>
+            <mat-label>District</mat-label>
+            <mat-select [(value)]="selectedValueDistrict" (selectionChange)="onSelectChangeCommune($event)" formControlName="id_gadm_district">
+                @if (!list_district() || list_district().length < 1) {
+                    <mat-option>Aucun ...</mat-option>
+                }@else {
+                    @for (item of list_district(); track $index) {
+                        <mat-option [value]="item.id">{{item.nom}}</mat-option>
+                    }
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Commune</mat-label>
+            <mat-select formControlName="id_gadm_commune">
+                @if (!list_commune() || list_commune().length < 1) {
+                    <mat-option>Aucun ...</mat-option>
+                }@else {
+                    @for (item of list_commune(); track $index) {
+                        <mat-option [value]="item.id">{{item.nom}}</mat-option>
+                    }
+                }
+            </mat-select>
+        </mat-form-field>
+        <div class="btn">
+            <button type="submit" mat-raised-button color="primary" class="btn-login full" [disabled]="store.isLoading() || !form.valid">
+                @if(store.isLoading()){
+                    <mat-progress-spinner class="white-spinner"  diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
+                }@else {
+                    Sauvegarder
+                }
+            </button>
+            <button mat-raised-button color="primary" class="btn-login-fermer full" [disabled]="store.isLoading()" (click)="close()">
+                Fermer
+            </button>
+        </div>
+    </form>
+</div>

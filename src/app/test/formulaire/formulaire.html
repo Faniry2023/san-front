@@ -2,41 +2,97 @@
   <h2>Créer un utilisateur TEST</h2>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="formulaire">
+      <div class="info-per">
+        <div class="login">
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username">
+          </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
-      <input matInput formControlName="username">
-    </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email">
+          </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="email">
-    </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Mot de passe</mat-label>
+            <input matInput formControlName="password" type="password">
+          </mat-form-field>
+          <section class="menu-section" [formGroup]="form">
+            <p><mat-checkbox formControlName="isAdmin">Est admin</mat-checkbox></p>
+          </section>
+        </div>
+        <div class="info">
+          <mat-form-field appearance="outline">
+            <mat-label>Matricule</mat-label>
+            <input matInput formControlName="matricule">
+          </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Mot de passe</mat-label>
-      <input matInput formControlName="password" type="password">
-    </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="nom">
+          </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Matricule</mat-label>
-      <input matInput formControlName="matricule">
-    </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Prénom</mat-label>
+            <input matInput formControlName="prenom">
+          </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Nom</mat-label>
-      <input matInput formControlName="nom">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Prénom</mat-label>
-      <input matInput formControlName="prenom">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Contact</mat-label>
-      <input matInput formControlName="contact">
-    </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Contact</mat-label>
+            <input matInput formControlName="contact">
+          </mat-form-field>
+  
+        </div>
+      </div>
+      <div class="localisation">
+        <select formControlName="nv" >
+          <option value="" >niveau</option>
+          <option value="0">Aucun</option>
+          <option value="1">Province</option>
+          <option value="2">Région</option>
+          <option value="3">District</option>
+          <option value="4">Commune</option>
+        </select>
+        @if (nv() >= 1) {
+          <select formControlName="id_pro">
+            @if (gadmStore.provinces() && gadmStore.provinces()?.length! > 0) {
+              @for (item of gadmStore.provinces(); track $index) {
+                <option [value]="item.id">{{item.nom}}</option>
+              }
+            }
+          </select>
+        }
+        @if (nv() >= 2) {
+          <select formControlName="id_reg">
+            @if (list_region() && list_region().length > 0) {
+              @for (item of list_region(); track $index) {
+                <option [value]="item.id">{{item.nom}}</option>
+              }
+            }
+          </select>
+        }
+        @if (nv() >= 3) {
+          <select formControlName="id_dis">
+            @if (list_district() && list_district().length > 0) {
+              @for (item of list_district(); track $index) {
+                <option [value]="item.id">{{item.nom}}</option>
+              }
+            }
+          </select>
+        }
+        @if (nv() >= 4) {
+          <select formControlName="id_com">
+            @if (list_commune() && list_commune().length > 0) {
+              @for (item of list_commune(); track $index) {
+                <option [value]="item.id">{{item.nom}}</option>
+              }
+            }
+          </select>
+        }
+      </div>
+    </div>
 
     <!-- DRAG & DROP UPLOAD -->
     <div class="upload-zone"

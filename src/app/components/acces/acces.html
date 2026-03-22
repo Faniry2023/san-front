@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="utilisateurs">
+        <div class="input"><input type="text" placeholder="recherche...:nom-prenom-liex" (input)="recherche.set($any($event.target).value)"></div>
+        <div class="liste">
+            @if (liste_utilisateur() && liste_utilisateur().length > 0) {
+                @for (item of liste_utilisateur(); track $index) {
+                    <a [class.active]="select_utilisateur() === item.utilisateur.id"(click)="select_user(item.utilisateur.id)">{{item.utilisateur.nom}} {{item.utilisateur.prenom}}</a>
+                }
+            }@else {
+                <h4>Aucun utilisateur</h4>
+            }
+        </div>
+    </div>
+    <div class="authorize">
+        <form action="" [formGroup]="form" (ngSubmit)="save()">
+            <div class="form">
+                <div class="menu">
+                    <section class="menu-section">
+                        <h1>Menu autorisé {{graphique()}}:</h1>
+                        <p><mat-checkbox formControlName="graphique">Graphique</mat-checkbox></p>
+                        <p><mat-checkbox formControlName="situation">Situation district</mat-checkbox></p>
+                        <p><mat-checkbox formControlName="vulnerabilite">Vulnerabilité</mat-checkbox></p>
+                        <p><mat-checkbox formControlName="carte">Carte</mat-checkbox></p>
+                        <p><mat-checkbox formControlName="utilisateur">Utilisateur</mat-checkbox></p>
+                        <p><mat-checkbox formControlName="acces">Acces</mat-checkbox></p>
+                        <p><mat-checkbox formControlName="kobo">KoboToolbox</mat-checkbox></p>
+                        <p><mat-checkbox formControlName="power">Power Bi</mat-checkbox></p>
+                    </section>
+
+                </div>
+                <div class="localisation">
+                    <h1>Localisation autorisé</h1>
+                    <select formControlName="nv">
+                        <option value="">Niveau</option>
+                        <option value="0">Aucun</option>
+                        <option value="1">Province</option>
+                        <option value="2">Région</option>
+                        <option value="3">District</option>
+                        <option value="4">Commune</option>
+                    </select>
+                    @if (nv() >= 1) {
+                        <select formControlName="id_pro">
+                            @if (gadmStore.provinces() && gadmStore.provinces()?.length! > 0) {
+                                @for (item of gadmStore.provinces(); track $index) {
+                                    <option [value]="item.id">{{item.nom}}</option>
+                                }
+                            }
+                        </select>
+                    }
+                    @if (nv() >= 2) {
+                        <select formControlName="id_reg">
+                            <option value="">Région</option>
+                            <option value="">Province</option>
+                            <option value="">Région</option>
+                            <option value="">District</option>
+                            <option value="">Commune</option>
+                            @if (liste_region() && liste_region().length > 0) {
+                                @for (item of liste_region(); track $index) {
+                                    <option [value]="item.id">{{item.nom}}</option>
+                                }
+                            }
+                        </select>
+                    }
+                    @if (nv() >= 3) {
+                        <select formControlName="id_dis">
+                            @if (liste_district() && liste_district().length > 0) {
+                                @for (item of liste_district(); track $index) {
+                                    <option [value]="item.id">{{item.nom}}</option>
+                                }
+                            }
+                        </select>
+                    }
+                    @if (nv() >= 4) {
+                        <select formControlName="id_com">
+                         @if (liste_commune() && liste_commune().length > 0) {
+                            @for (item of liste_commune(); track $index) {
+                                <option [value]="item.id">{{item.nom}}</option>
+                            }
+                        } 
+                        </select>
+                    }
+                </div>
+            </div>
+            <button type="submit" [class.charge]="utilisateurStore.loading_authorize()" [disabled]="utilisateurStore.loading_authorize()">
+                @if(utilisateurStore.loading_authorize()){
+                    <mat-progress-spinner diameter="20" mode="indeterminate" strokeWidth="3"></mat-progress-spinner>
+                }
+                Sauvegarder
+            </button>
+            
+        </form>
+    </div>
+</div>

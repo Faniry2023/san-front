@@ -5,6 +5,8 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { authInterceptor } from './interceptos/auth-interceptor';
+import { provideEchartsCore } from 'ngx-echarts';
+import * as echarts from 'echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
     provideToastr(),
+    provideEchartsCore({ echarts })
   ]
 };

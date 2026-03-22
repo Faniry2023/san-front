@@ -1,0 +1,52 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.container form .btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+    button,a{
+        background-color:blue;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    a.x{
+        background-color:rgb(124, 3, 3);
+        color: white;
+    }
+}
+.container .new-data{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.container .all-input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #04AA6D;
+    overflow: hidden;
+    .one-input{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        input{
+            width: 380px;
+            height: 30px;
+            text-align: center;
+        }
+        input.other{
+            width: 120px;
+        }
+    }
+    
+}

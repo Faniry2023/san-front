@@ -1,0 +1,38 @@
+<h1>{{koboStore.reponseForViewH()?.formulaire?.nom_formulaire}}</h1>
+<table id="customers">
+    <tr>
+        @for (item of koboStore.reponseForViewH()?.questions_dico | keyvalue; track $index) {
+            @for (item_2 of item.value; track $index) {
+                <th>{{item_2.question}}</th>
+            }
+        }
+    </tr>
+    <tr>
+        @for (item of koboStore.reponseForViewH()?.questions_dico | keyvalue; track $index) {
+            <th [attr.colspan]="item.value.length">{{item.key}}</th>
+        }
+        
+    </tr>
+    @for (sou of koboStore.reponseForViewH()?.reponse_soumi; track $index) {
+        <!-- <tr> <td>coucou </td> </tr> -->
+        @for (i of range(sou.tailler); track $index) {
+            <tr>
+                @for (rep of koboStore.reponseForViewH()?.questions_dico | keyvalue; track $index) {
+                   
+                    @for (ques_rep of rep.value; track $index) {
+                        <td>
+                            @if(sou.reponse_dico[ques_rep.id.toUpperCase()] && sou.reponse_dico[ques_rep.id.toUpperCase()].length > i){
+                                {{sou.reponse_dico[ques_rep.id.toUpperCase()][i].reponse}}
+                                 <!-- {{ques_rep.id.toUpperCase()}} -->
+                            }@else {...}
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    }
+    <!-- <tr><td colspan="12"></td></tr> -->
+    
+    
+</table>
+<h3> nombre de soumission: {{test()}}</h3>

@@ -13,13 +13,13 @@ export const authInterceptor: HttpInterceptorFn = (req:HttpRequest<any>,
       return next(req);
     }
 
-    if(store.utilisateur()){
+    if(store.utiAuth()?.utilisateur){
       return next(req);
     }
 
     return from(store.Me()).pipe(
       switchMap(() => {
-        if(store.utilisateur()){
+        if(store.utiAuth()?.utilisateur){
           return next(req);
         }else{
           router.navigate(['/login']);

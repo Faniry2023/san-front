@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header implements OnInit{
-  ngOnInit(): void {
+  utilisateurAuth = inject(UtilisateurStore);
+  async ngOnInit() {
+    await this.utilisateurAuth.Me();
     this.generateTheme();
   }
   showMenu = signal(false);

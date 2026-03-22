@@ -10,25 +10,33 @@ import { LoginHelper } from "../helper/login-helper";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from "@angular/router";
 import { Gadm } from "../models/gadm";
+import { UtilisateurAuthoriseHelper } from "../helper/utilisateur-authorise-helper";
+import { AuthoriseModel } from "../models/authorise-model";
 
 export interface UtilisateurState{
-    utilisateur:UtilisateurModel | null;
+    utiAuth:UtilisateurAuthoriseHelper | null;
+    listeUtilisateur:UtilisateurAuthoriseHelper[];
+    one_user : UtilisateurAuthoriseHelper | null;
     isError:boolean;
     error:string | null;
     errorTitle:string | null;
     loading:boolean;
     isLogged:boolean;
     errogLogin:boolean;
+    loading_authorize:boolean;
 }
 
 const initialState:UtilisateurState = {
-    utilisateur:null,
+    utiAuth:null,
+    listeUtilisateur:[] as UtilisateurAuthoriseHelper[],
+    one_user : null,
     isError:false,
     error:null,
     errorTitle:null,
     loading:false,
     isLogged:false,
-    errogLogin:false
+    errogLogin:false,
+    loading_authorize:false,
 };
 
 export const UtilisateurStore = signalStore(
@@ -47,7 +55,7 @@ export const UtilisateurStore = signalStore(
             patchState(store,{loading:true, isError:false, error:null});
             try{
                 const new_utilisateur = await firstValueFrom(service.create(login,utilisateur,photo));
-                patchState(store,{utilisateur:new_utilisateur, loading:false});
+                patchState(store,{utiAuth:new_utilisateur, loading:false});
                 toaster.success("Utilisateur créé avec succès","Succès");
             }catch(err:any){
                 const msrError = err?.detail;
@@ -59,7 +67,7 @@ export const UtilisateurStore = signalStore(
             patchState(store,{loading:true, isError:false, errogLogin:false, error:null});
             try{
                 const utilisateur = await firstValueFrom(service.login(log));
-                patchState(store,{utilisateur:utilisateur, loading:false, isLogged:true});
+                patchState(store,{utiAuth:utilisateur, loading:false, isLogged:true});
             }catch(err:any){
                 const msrError = err?.detail;
                 const msgErrorTitle = err?.title;
@@ -77,7 +85,7 @@ export const UtilisateurStore = signalStore(
             patchState(store,{loading:true, isError:false, error:null});
             try{
                 await firstValueFrom(service.logout());
-                patchState(store,{utilisateur:null, loading:false, isLogged:false});
+                patchState(store,{utiAuth:null, loading:false, isLogged:false});
                 snackBar.open("Vous êtes déconnecter", 'Fermer', {
                     duration: 5000,
                 });
@@ -94,17 +102,17 @@ export const UtilisateurStore = signalStore(
             patchState(store,{loading:true, isError:false, error:null});
             try{
                 const utilisateur =  await firstValueFrom(service.me());
-                patchState(store,{utilisateur:utilisateur, loading:false, isLogged:true});
+                patchState(store,{utiAuth:utilisateur, loading:false, isLogged:true});
             }catch(err:any){
                 const msrError = err?.detail;
-                patchState(store,{utilisateur:null,error:msrError, loading:false, isError:true, isLogged:false});
+                patchState(store,{utiAuth:null,error:msrError, loading:false, isError:true, isLogged:false});
             }
         },
         async checkSession(){
             patchState(store,{loading:true});
             await this.Me();
             if(!store.isLoggedIn()){
-                patchState(store,{loading:false, utilisateur:null});
+                patchState(store,{loading:false, utiAuth:null});
                 router.navigate(['/login'],{replaceUrl:true});
                     snackBar.open('Votre session est expiré, veillez vous se reconnecter à nouveau',
                         'Fermer',{duration:10000}
@@ -123,6 +131,45 @@ export const UtilisateurStore = signalStore(
                 patchState(store,{error:msrError, loading:false, isError:true});
             }
         },
+        async getAll(){
+            patchState(store,{loading:true, isError:false, error:null});
+            try{
+                const liste_utilisateur = await firstValueFrom(service.getAllUser());
+                patchState(store,{loading:false,listeUtilisateur:liste_utilisateur });
+            }catch(err:any){
+                const msrError = err?.detail;
+                patchState(store,{error:msrError, loading:false, isError:true});
+            }
+        },
+        async addAuthorize(model:AuthoriseModel){
+            patchState(store,{loading:true, loading_authorize:true, isError:false, error:null});
+            try{
+                const new_authorise = await firstValueFrom(service.addAuthorise(model));
+                const new_list = (store.listeUtilisateur() ?? []).map(u =>{
+                    if(u.authorise && u.utilisateur.id && u.authorise.id.toLowerCase() === model.id.toLowerCase()){
+                        return{
+                            ...u,authorise:new_authorise
+                        };
+                    }
+                    return u;
+                })
+                patchState(store,{loading:false, loading_authorize:false, listeUtilisateur:new_list });
+            }catch(err:any){
+                const msrError = err?.detail;
+                patchState(store,{error:msrError, loading_authorize:false, loading:false, isError:true});
+            }
+        },
+
+        async select_one(id:string){
+            patchState(store,{loading:true, isError:false, error:null});
+            const utilisateur = await store.listeUtilisateur().find(u => u.utilisateur.id.toLowerCase() === id.toLowerCase());
+            if(utilisateur){
+                patchState(store,{loading:false,one_user:utilisateur });
+            }else{
+                patchState(store,{loading:false, isError:true });
+                toaster.error("Une erreur lors de récupération de cette utilisateur",'Erreur')
+            }
+        }
     })
     )
 )

@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Formulaire de nom de l'enquête</h1>
+    <form [formGroup]="form" (submit)="save()">
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Nom : </mat-label>
+            <input matInput formControlName="nom">
+            <mat-icon matSuffix>person</mat-icon>
+            @if (isFieldValid('nom')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <div class="btn">
+            <button type="submit" mat-raised-button color="primary" class="btn-login full" [disabled]="store.isLoading() || !form.valid">
+                @if(store.isLoading()){
+                    <mat-progress-spinner class="white-spinner"  diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
+                }@else {
+                    Sauvegarder
+                }
+            </button>
+            <button mat-raised-button color="primary" class="btn-login-fermer full" [disabled]="store.isLoading()" (click)="close()">
+                Fermer
+            </button>
+        </div>
+    </form>
+</div>

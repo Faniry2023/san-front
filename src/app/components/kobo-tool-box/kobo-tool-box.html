@@ -1,4 +1,17 @@
 <div class="main">
+    <div class="menu-kob">
+        @if(!loadDel()){
+            @if(!koboStore.apiOk()){
+                <a (click)="ajoutApi()">Ajouter API</a>
+                
+            }@else {
+                <a (click)="deleteApi()">Supprimer</a>
+                <a (click)="recProj()">Synchroniser</a>
+            }
+        }@else {
+            <mat-progress-spinner  diameter="30" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+        }
+    </div>
     <div class="kobo">
         <div class="liste-projet">
             <h1>Projets</h1>
@@ -8,9 +21,17 @@
             <div class="lst">
                 <!-- <a>Enquete Vulnérabilité</a>
                 <a class="active">Recensement</a>
-                <a>Enquete Nutritionnel</a>
-                <a>comptable des comune</a> -->
-                <h4>Aucun projet sur ce compte</h4>
+                <h4>Aucun projet sur ce compte</h4> -->
+                @if(koboStore.loading()){
+                    <mat-spinner class="white-spinner" [diameter]="50" [strokeWidth]="8"></mat-spinner>
+                    <p style="color: white;">Chargement des projets cn cours ...</p>
+                }@else if(koboStore.isFormTab()){
+                    @for(form of koboStore.formulaires();track $index){
+                        <a (click)="changeData(form.nom_formulaire,form.uid)" [class.active]="(menu() == form.nom_formulaire)">{{form.nom_formulaire}}</a>
+                    }
+                }@else {
+                    <h4>Aucun projet sur ce compte</h4> 
+                }
             </div>
         </div>
         <!-- <div class="liste-personne">
@@ -30,6 +51,9 @@
         </div> -->
     </div>
     <div class="valuer">
-        <img src="assets/pin.jpg" alt="">
+        @if(showTable()){
+            <app-table-donnes [uid]="uidSelected()" [reloadToken]="reloadToken"></app-table-donnes>
+        }
+        
     </div>
 </div>
