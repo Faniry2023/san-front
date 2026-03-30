@@ -12,7 +12,8 @@ import { DisponibiliteHelper } from '../../helper/disponibilite-helper';
 })
 export class SituationService {
   private httpClient = inject(HttpClient);
-  private baseUrl = "https://localhost:7008/";
+  // private baseUrl = "https://localhost:7008/";
+    private baseUrl = "https://san-back.runasp.net/";
 
   saveAll(liste_situation:SituationHelper[]):Observable<CompletSituationHelper[]>{
     const model : ListeSituationHelper = {

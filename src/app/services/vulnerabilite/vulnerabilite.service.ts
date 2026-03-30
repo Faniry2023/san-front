@@ -10,7 +10,8 @@ import { UpdateVulnerabiliteHelper } from '../../helper/vulnerabilite/update-vul
 })
 export class VulnerabiliteService {
   private httpClient = inject(HttpClient);
-  private baseUrl = "https://localhost:7008/";
+  // private baseUrl = "https://localhost:7008/";
+    private baseUrl = "https://san-back.runasp.net/";
   
   getAll():Observable<VulnerabiliteHelper[]>{
     return this.httpClient.get<VulnerabiliteHelper[]>(this.baseUrl + 'vulnerabilite/all',{withCredentials:true})
