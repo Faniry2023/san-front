@@ -7,7 +7,8 @@ import { EnqueteModel } from '../../models/enquete-model';
   providedIn: 'root',
 })
 export class EnqueteService {
-  private baseUrl = "https://localhost:7008/";
+  // private baseUrl = "https://localhost:7008/";
+  private baseUrl = "https://san-back.runasp.net/";
   private httpClient = inject(HttpClient);
 
   getAll():Observable<EnqueteModel[]>{

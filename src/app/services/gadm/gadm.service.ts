@@ -7,7 +7,8 @@ import { catchError, Observable, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class GadmService {
-  private baseUrl = "https://localhost:7008/";
+  // private baseUrl = "https://localhost:7008/";
+    private baseUrl = "https://san-back.runasp.net/";
   private httpClient = inject(HttpClient);
 
   public GetGadm():Observable<GadmHelper>{
