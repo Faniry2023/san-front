@@ -2,6 +2,8 @@ import { Component, inject, OnInit, Renderer2, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { UtilisateurStore } from '../../store/utilisateur';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateAccount } from './update-account/update-account';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class Header implements OnInit{
   utilisateurAuth = inject(UtilisateurStore);
+  dialog = inject(MatDialog);
   async ngOnInit() {
     await this.utilisateurAuth.Me();
     this.generateTheme();
@@ -28,12 +31,22 @@ export class Header implements OnInit{
   async logout(){
     await this.store.Logout();
     if(!this.store.isLogged() && !this.store.isError()){
-      this.router.navigate(['login'],{replaceUrl:true});
+      this.router.navigate(['/login'],{replaceUrl:true});
     }
   }
   
   btnMenu(){
     this.showMenu.set(!this.showMenu());
-    console.log('show menu : ' + this.showMenu())
+    // console.log('show menu : ' + this.showMenu())
+  }
+  openupdate(){
+    this.showMenu.set(false);
+    this.dialog.open(UpdateAccount,{
+      width:'50%',
+      height:'75%',
+      disableClose:true,
+      exitAnimationDuration:'10ms',
+      enterAnimationDuration:'100ms'
+    })
   }
 }

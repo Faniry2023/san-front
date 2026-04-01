@@ -1,0 +1,64 @@
+<div class="container">
+    @if (!utilisateurStore.loading()) {
+    <h1>Modification du compte</h1>
+    <form [formGroup]="form" (submit)="save()">
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Nom d'utilisateur : </mat-label>
+            <input matInput formControlName="username">
+            <mat-icon matSuffix>person</mat-icon>
+            @if (isFieldValid('username')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Email : </mat-label>
+            <input matInput formControlName="email">
+            <mat-icon matSuffix>email</mat-icon>
+            @if (isFieldValid('email')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>Ancien mot de passe : </mat-label>
+            <input type="password" matInput formControlName="mdp0">
+            <mat-icon matSuffix>password</mat-icon>
+            @if (isFieldValid('mdp0')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>nouveau mot de passe : </mat-label>
+            <input type="password" matInput formControlName="mdp1">
+            <mat-icon matSuffix>password</mat-icon>
+            @if (isFieldValid('mdp1')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+            <mat-label>confirmer le nouveau mot de passe : </mat-label>
+            <input type="password" matInput formControlName="mdp2">
+            <mat-icon matSuffix>password</mat-icon>
+            @if (isFieldValid('mdp2')) {
+                <mat-error class="error">Ce champs est obligatoire</mat-error>
+            }
+        </mat-form-field>
+        <div class="btn">
+            <button type="submit" mat-raised-button color="primary" class="btn-login full" [disabled]="utilisateurStore.loading() || !form.valid">
+                @if(utilisateurStore.loading()){
+                    <mat-progress-spinner class="white-spinner"  diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
+                }@else {
+                    Sauvegarder
+                }
+            </button>
+            <button mat-raised-button color="primary" class="btn-login-fermer full" [disabled]="utilisateurStore.loading()" (click)="close()">
+                Fermer
+            </button>
+        </div>
+        @if(error()){
+            <div class="error">{{error()}}</div>
+        }
+    </form>
+    }@else {
+        <mat-progress-spinner  diameter="60" strokeWidth="8" mode="indeterminate"></mat-progress-spinner>
+    }
+</div>

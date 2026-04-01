@@ -61,8 +61,8 @@ export class Dispo implements OnInit{
       this.temps.set(this.data.dispo.temps);
       this.disponibiliteOld.set(this.data.dispo);
       const t = this.temps();
-      console.log('le temps t : ')
-      console.log(this.disponibiliteOld());
+      // console.log('le temps t : ')
+      // console.log(this.disponibiliteOld());
       if(t){
         this.form.patchValue({
           jan:t.jan,

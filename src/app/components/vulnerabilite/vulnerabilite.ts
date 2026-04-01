@@ -182,7 +182,7 @@ export class Vulnerabilite implements OnInit {
       const select = value.substring(0, value.length - 2).toLowerCase();
       const result = this.gadmStore.regions()?.filter(g => g.id.toLowerCase().includes(select));
       this.list_region.set(result!);
-      console.log(select);
+      // console.log(select);
         this.form.get('id_region')?.reset();
         this.form.get('id_district')?.reset();
         this.form.get('id_commune')?.reset();

@@ -8,6 +8,7 @@ import { LoginHelper } from '../../helper/login-helper';
 import { Gadm } from '../../models/gadm';
 import { UtilisateurAuthoriseHelper } from '../../helper/utilisateur-authorise-helper';
 import { AuthoriseModel } from '../../models/authorise-model';
+import { MdpHelper } from '../../helper/mdp-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,26 @@ export class LogCreateService {
     return this.httpClient.post<UtilisateurAuthoriseHelper>(this.baseUrl + 'login', log,{withCredentials:true}).pipe(catchError(this.handleError));
   }
 
+  public testMdp(model: MdpHelper):Observable<boolean>{
+    // console.log('model: '  + model);
+    return this.httpClient.post<boolean>(this.baseUrl + 'test/mdp',model,{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
 
+  public getLog():Observable<LoginModel>{
+    return this.httpClient.get<LoginModel>(this.baseUrl + 'log/rec',{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  public updateAccount(model: LoginModel):Observable<void>{
+    return this.httpClient.put<void>(this.baseUrl + 'log/update', model, {withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
+
+  public DeleteUser(id:string):Observable<void>{
+    return this.httpClient.get<void>(this.baseUrl + 'delete/user/' + id,{withCredentials:true})
+    .pipe(catchError(this.handleError));
+  }
   //creation utilisateur avec son login
   public create(login:LoginModel, utilisateur:UtilisateurHelper, photo:File):Observable<UtilisateurAuthoriseHelper>{
     const formData = new FormData();

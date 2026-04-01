@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 import { Gadm } from "../models/gadm";
 import { UtilisateurAuthoriseHelper } from "../helper/utilisateur-authorise-helper";
 import { AuthoriseModel } from "../models/authorise-model";
+import { MdpHelper } from "../helper/mdp-helper";
 
 export interface UtilisateurState{
     utiAuth:UtilisateurAuthoriseHelper | null;
@@ -24,6 +25,8 @@ export interface UtilisateurState{
     isLogged:boolean;
     errogLogin:boolean;
     loading_authorize:boolean;
+    login:LoginModel | null;
+    isMdpOk:boolean;
 }
 
 const initialState:UtilisateurState = {
@@ -37,6 +40,8 @@ const initialState:UtilisateurState = {
     isLogged:false,
     errogLogin:false,
     loading_authorize:false,
+    login: null,
+    isMdpOk: false
 };
 
 export const UtilisateurStore = signalStore(
@@ -55,7 +60,7 @@ export const UtilisateurStore = signalStore(
             patchState(store,{loading:true, isError:false, error:null});
             try{
                 const new_utilisateur = await firstValueFrom(service.create(login,utilisateur,photo));
-                patchState(store,{utiAuth:new_utilisateur, loading:false});
+                patchState(store,{listeUtilisateur:[new_utilisateur,...(store.listeUtilisateur() ?? [])], loading:false});
                 toaster.success("Utilisateur créé avec succès","Succès");
             }catch(err:any){
                 const msrError = err?.detail;
@@ -79,6 +84,17 @@ export const UtilisateurStore = signalStore(
                         panelClass: 'error-snackbar'
                     });
                 }
+            }
+        },
+        async TestMdp(model: MdpHelper){
+            patchState(store,{loading:true});
+            try{
+                const result = await firstValueFrom(service.testMdp(model));
+                patchState(store,{loading:false,isMdpOk:result});
+            }catch(err:any){
+                const msrError = err?.detail;
+                patchState(store,{error:msrError, loading:false,isError:true});
+                toaster.error(msrError,'Erreur')
             }
         },
         async Logout(){
@@ -169,7 +185,44 @@ export const UtilisateurStore = signalStore(
                 patchState(store,{loading:false, isError:true });
                 toaster.error("Une erreur lors de récupération de cette utilisateur",'Erreur')
             }
-        }
+        },
+        async getLog(){
+            patchState(store,{loading:true});
+            try{
+                const log = await firstValueFrom(service.getLog());
+                patchState(store,{loading:false,login:log});
+            }catch(err:any){
+                const msrError = err?.detail;
+                patchState(store,{error:msrError, loading:false,isError:true});
+                toaster.error(msrError,'Erreur')
+            }
+        },
+
+        async updateLog(model: LoginModel){
+            patchState(store,{loading:true});
+            try{
+                await firstValueFrom(service.updateAccount(model))
+                patchState(store,{loading:false})
+                toaster.success("Modification bien éffectuée!","Success")
+            }catch(err:any){
+                const msrError = err?.detail;
+                patchState(store,{error:msrError, loading:false,isError:true});
+                toaster.error(msrError,'Erreur')
+            }
+        },
+        async DeleteUser(id: string){
+            patchState(store,{loading:true});
+            try{
+                await firstValueFrom(service.DeleteUser(id));
+                const new_list = store.listeUtilisateur().filter(u => u.utilisateur.id.toUpperCase()!== id.toUpperCase());
+                patchState(store,{loading:false,listeUtilisateur:new_list});
+                toaster.success("Utilisateur supprimer avec success","Success");
+            }catch(err:any){
+                const msrError = err?.detail;
+                patchState(store,{error:msrError, loading:false,isError:true});
+                toaster.error(msrError,'Erreur')
+            }
+        },
     })
     )
 )

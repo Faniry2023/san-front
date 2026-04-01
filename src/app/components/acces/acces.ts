@@ -185,9 +185,9 @@ export class Acces implements OnInit{
   }
   onSelectChangeNiv(value : string){
     const newNv = Number(value);
-    console.log(value);
+    // console.log(value);
     this.nv.set(newNv);
-    console.log(this.nv());
+    // console.log(this.nv());
 
     this.form.get('id_pro')?.reset();
     this.form.get('id_reg')?.reset();

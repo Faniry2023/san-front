@@ -19,9 +19,8 @@
     <div class="menu" [class.show]="showMenu()">
         <div class="photo"><img [src]="'data:image/png;base64,' + utilisateurAuth.utiAuth()?.photo" alt="" ></div>
         <div class="menu-list">
-            <a href="">Compte</a>
-            <a href="">Modification</a>
-            <a href="">Paramètre</a>
+            <a (click)="openupdate()">Modification Compte</a>
+            <a>Paramètre</a>
             <a (click)="logout()" class="btn"><div><mat-icon>logout</mat-icon></div><div>Se déconnecter</div></a>
         </div>
     </div>
