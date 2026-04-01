@@ -40,7 +40,7 @@ main{
     height: 500px;
     top: 200px;
     left: -270px;
-    opacity: 0.1;
+    opacity: 0.2;
     gap: 20px;
     transition: left 0.5s ease-out, opacity 1s ease;
 }

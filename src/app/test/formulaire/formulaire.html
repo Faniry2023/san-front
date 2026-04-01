@@ -1,3 +1,4 @@
+<div class="container">
 <mat-card class="card">
   <h2>Créer un utilisateur TEST</h2>
 
@@ -127,3 +128,14 @@
 
   </form>
 </mat-card>
+<div class="liste">
+  @if(store.loading()){
+    <mat-progress-spinner diameter="20" mode="indeterminate" strokeWidth="3"></mat-progress-spinner>
+  }
+  @for (item of store.listeUtilisateur(); track $index) {
+    <div class="us">
+      {{item.utilisateur.nom}} {{item.utilisateur.prenom}} @if(!store.loading()){<a (click)="delete(item.utilisateur.id)"> <mat-icon class="icon">delete</mat-icon></a>}
+    </div>
+  }
+</div>
+</div>

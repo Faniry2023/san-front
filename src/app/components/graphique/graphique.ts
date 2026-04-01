@@ -101,9 +101,9 @@ export class Graphique implements OnInit{
   }
   onSelectChangeNiv(value : string){
     const newNv = Number(value);
-    console.log(value);
+    // console.log(value);
     this.nv.set(newNv);
-    console.log(this.nv());
+    // console.log(this.nv());
     this.form.get('id_region')?.reset();
     this.form.get('id_district')?.reset();
     this.form.get('id_commune')?.reset();
@@ -115,7 +115,7 @@ export class Graphique implements OnInit{
       const select = value.substring(0, value.length - 2).toLowerCase();
       const result = this.gadmStore.regions()?.filter(g => g.id.toLowerCase().includes(select));
       this.liste_region.set(result!);
-      console.log(select);
+      // console.log(select);
       this.form.get('id_region')?.reset();
       this.form.get('id_district')?.reset();
       this.form.get('id_commune')?.reset();

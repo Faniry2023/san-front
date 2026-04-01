@@ -19,7 +19,7 @@ export class SituationService {
     const model : ListeSituationHelper = {
       situations : liste_situation
     }
-    console.log(model);
+    // console.log(model);
     return this.httpClient.post<CompletSituationHelper[]>(this.baseUrl + 'situation/add', model,{withCredentials:true})
     .pipe(catchError(this.handleError));
   }

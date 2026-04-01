@@ -250,7 +250,7 @@ export class Donnees implements OnInit{
     this.isLoadinBD.set(true);
     await this.situationStore.getAll();
     await this.situationStore.allInBd();
-    console.log(this.situationStore.allSituationInBd());
+    // console.log(this.situationStore.allSituationInBd());
     if(!this.situationStore.isLoading()){
       this.isLoadinBD.set(false);
     }

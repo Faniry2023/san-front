@@ -60,7 +60,7 @@ async ngOnInit() {
   levelControl = new FormControl(0);
   constructor(){
     this.levelControl.valueChanges.subscribe(value =>{
-      console.log("Niveau selectionné : ",value);
+      // console.log("Niveau selectionné : ",value);
       this.setLevel(value!);
       this.levelSel.set(value!);
     })
@@ -155,8 +155,8 @@ async ngOnInit() {
 
 
   selectByName(name: string, level :number) {
-    console.log("featuresLayers length:", this.featuresLayers.length);
-    console.log('nom : ' + name + ' niveau : ' + level);
+    // console.log("featuresLayers length:", this.featuresLayers.length);
+    // console.log('nom : ' + name + ' niveau : ' + level);
     const field = this.nameField[level];
 
     const found = this.featuresLayers.find(f =>{
@@ -166,7 +166,7 @@ async ngOnInit() {
     );
 
     if (!found) {
-      console.warn("Aucune zone trouvée");
+      // console.warn("Aucune zone trouvée");
       return;
     }
 

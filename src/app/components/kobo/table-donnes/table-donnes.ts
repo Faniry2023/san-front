@@ -37,7 +37,7 @@ export class TableDonnes implements OnInit,OnChanges{
   }
   async chargeData(){
     await this.koboStore.dataViewForOneForm(this.uid);
-    console.log(this.koboStore.reponseForViewH())
+    // console.log(this.koboStore.reponseForViewH())
     // console.log(this.koboStore.reponseForViewH()?.Reponse_soumi.length);
     this.repForViw = this.koboStore.reponseForViewH();
     this.test.set(this.koboStore.reponseForViewH()!.reponse_soumi?.length)

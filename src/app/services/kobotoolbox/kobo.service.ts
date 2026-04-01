@@ -21,7 +21,7 @@ export class KoboService {
   }
 
   public ChangeKobo(retoure:RetoureKoboFormulaireHelper):Observable<FormulaireKoboModel[]>{
-    console.log(retoure);
+    // console.log(retoure);
     return this.httpClient.post<FormulaireKoboModel[]>(this.baseUrl + "kobo/new/synchronisation",retoure)
     .pipe(catchError(this.handleError));
   }

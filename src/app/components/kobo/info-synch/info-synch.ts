@@ -35,10 +35,10 @@ export class InfoSynch implements OnInit{
       this.notDel.push(form);
     }
     if(this.notDel.length > 0){
-      console.log("Les element a supprimer : ")
-      for(let i = 0; i < this.notDel.length; i++){
-        console.log(this.notDel[i]);
-      }
+      // console.log("Les element a supprimer : ")
+      // for(let i = 0; i < this.notDel.length; i++){
+      //   // console.log(this.notDel[i]);
+      // }
       
     }
   }
@@ -49,10 +49,10 @@ export class InfoSynch implements OnInit{
     if(!this.retoureKoboFormulaire) return;
     this.retoureKoboFormulaire.notDel ??= [];
     this.retoureKoboFormulaire?.notDel.push(...this.notDel);
-    console.log("Les element not del dans retoureForme sont : ");
+    // console.log("Les element not del dans retoureForme sont : ");
     if(this.retoureKoboFormulaire.notDel.length > 0){
       for(let i = 0; i < this.retoureKoboFormulaire.notDel.length; i++){
-        console.log(this.retoureKoboFormulaire.notDel[i]);
+        // console.log(this.retoureKoboFormulaire.notDel[i]);
       }
     }
     await this.koboStore.ChangeForm(this.retoureKoboFormulaire!);

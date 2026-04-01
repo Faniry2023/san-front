@@ -59,6 +59,7 @@ export class Formulaire implements OnInit{
 
   })
   async ngOnInit(){
+    await this.store.getAll();
     await this.gadmStore.getGadm();
     this.form.get('nv')?.valueChanges.subscribe(value =>
       this.onSelectChangeNiv(value?.toString()!));
@@ -194,6 +195,13 @@ export class Formulaire implements OnInit{
         gadm:this.nv() == 1 ? id_pro! : (this.nv() == 2 ? id_reg! : (this.nv() == 3 ? id_dis! : (this.nv() == 4 ? id_com! : 'aucun')))!
       }
       await this.store.createtUtilisateur(login, utilisateur, this.form.value.photo!);
+    }
+  }
+
+  async delete(id: string){
+    var del = confirm("Voullez vous supprimer cet utilisateur?")
+    if(del){
+      await this.store.DeleteUser(id);
     }
   }
 }

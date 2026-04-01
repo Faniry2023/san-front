@@ -43,7 +43,7 @@ export class EsCreate implements OnInit{
       this.list_commune.set([]);
       const select = event.value.substr(0, event.value.length - 2).toLowerCase();
       const result = this.gadmStore.communes()?.filter(g => g.id.toLowerCase().includes(select));
-      console.log('district selectionner : ' + select + ' // district complet : ' + event.value);
+      // console.log('district selectionner : ' + select + ' // district complet : ' + event.value);
       this.list_commune.set(result!);
     }
     onSelectChangeDistrict(event : MatSelectChange){
@@ -51,7 +51,7 @@ export class EsCreate implements OnInit{
       this.list_commune.set([]);
       const select = event.value.substr(0, event.value.length - 2).toLowerCase();
       const result = this.gadmStore.districts()?.filter(g => g.id.toLowerCase().includes(select));
-      console.log('region selectionner : ' + select + ' // region complet : ' + event.value);
+      // console.log('region selectionner : ' + select + ' // region complet : ' + event.value);
       this.list_district.set(result!);
     }
     
